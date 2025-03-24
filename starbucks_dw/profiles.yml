@@ -1,0 +1,11 @@
+starbucks_dw:
+  outputs:
+    dev:
+      dataset: starbucks_raw
+      keyfile: '{{ env_var(''EDIT_KEYFILE_GCP'') }}'
+      location: EU
+      method: service-account
+      project: '{{ env_var(''EDIT_PROJECT_ID'') }}'
+      threads: 4
+      type: bigquery
+  target: dev
