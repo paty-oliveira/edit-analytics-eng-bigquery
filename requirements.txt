@@ -8,3 +8,4 @@ pyarrow
 dbt-core
 dbt-bigquery
 protobuf~=5.29.4
+pre-commit
