@@ -1,0 +1,10 @@
+requests
+pandas
+google-cloud-bigquery
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+pyarrow
+dbt-core
+dbt-bigquery
+protobuf~=5.29.4
