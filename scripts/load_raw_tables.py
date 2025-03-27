@@ -18,18 +18,17 @@ def load_data_into_tables(files, dataset_name):
         full_table_name = f"{dataset_name}.{table_name}"
 
         if not data.empty:
-            client.load_table_from_dataframe(
-                data, destination=full_table_name
-            )
-            print(f"Table {full_table_name} loaded successfully with {data.shape[0]} rows")
+            client.load_table_from_dataframe(data, destination=full_table_name)
+            print(f"Table {table_name} loaded successfully with {data.shape[0]} rows")
         else:
-            print(f"Table {full_table_name} not loaded. Empty table.")
+            print(f"Table {table_name} not loaded. Empty table.")
 
 
 def main():
     files = ["promos.csv", "customers.csv", "transactions.csv"]
     dataset_name = "starbucks_raw"
     load_data_into_tables(files, dataset_name)
+
 
 if __name__ == "__main__":
     main()
