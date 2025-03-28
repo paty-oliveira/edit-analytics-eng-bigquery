@@ -10,6 +10,7 @@ env:
   PROJECT_ID: ${{ vars.EDIT_PROJECT_ID }}
   KEYFILE_GCP: ${{ secrets.EDIT_KEYFILE_GCP }}
   DBT_PROJECT_DIR: ./starbucks_dw
+  DBT_PROFILES_DIR: ./starbucks_dw
   DBT_TARGET_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
 jobs:
@@ -28,44 +29,10 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Create Google Cloud credentials file
+    - name: Setup BigQuery authentication
       run: |
-        echo "${{ env.KEYFILE_GCP }}" > gcp-keyfile.json
-
-    - name: Set environment variable for credentials
-      run: |
-        echo "EDIT_GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcp-keyfile.json" >> $GITHUB_ENV
-        ls -al
-        echo $pwd
-
-    - name: Configure dbt profiles.yml
-      run: |
-        mkdir -p ~/.dbt
-        cat <<EOF > ~/.dbt/profiles.yml
-        starbucks_dw:
-          target: dev
-          outputs:
-            dev:
-              dataset: starbucks_dev
-              keyfile: ${{ env.EDIT_GOOGLE_APPLICATION_CREDENTIALS }}
-              location: EU
-              method: service-account
-              project: ${{ env.PROJECT_ID }}
-              threads: 4
-              type: bigquery
-            prod:
-              dataset: starbucks_prod
-              keyfile: ${{ env.EDIT_GOOGLE_APPLICATION_CREDENTIALS }}
-              location: EU
-              method: service-account
-              project: ${{ env.PROJECT_ID }}
-              threads: 4
-              type: bigquery
-        EOF
-        ls -al
-
-    - name: Verify dbt profiles.yml
-      run: cat ~/.dbt/profiles.yml
+        echo "$KEYFILE_GCP" > $HOME/gcp-key.json
+        echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcp-key.json" >> $GITHUB_ENV
 
     - name: Lint Python scripts
       run: |
