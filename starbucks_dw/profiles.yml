@@ -1,11 +1,19 @@
 starbucks_dw:
+  target: dev
   outputs:
     dev:
-      dataset: starbucks_raw
+      dataset: starbucks_dev
       keyfile: '{{ env_var(''EDIT_KEYFILE_GCP'') }}'
       location: EU
       method: service-account
       project: '{{ env_var(''EDIT_PROJECT_ID'') }}'
       threads: 4
       type: bigquery
-  target: dev
+    prod:
+      dataset: starbucks_prod
+      keyfile: '{{ env_var(''EDIT_KEYFILE_GCP'') }}'
+      location: EU
+      method: service-account
+      project: '{{ env_var(''EDIT_PROJECT_ID'') }}'
+      threads: 4
+      type: bigquery
