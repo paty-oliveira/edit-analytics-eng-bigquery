@@ -44,8 +44,8 @@ jobs:
     - name: Check database connection
       run: dbt debug
 
-    # - name: Install dbt packages
-    #   run: dbt deps
+    - name: Install dbt packages
+      run: dbt deps
 
-    # - name: Run and test dbt models
-    #   run: dbt build --target $DBT_TARGET_ENV
+    - name: Run and test dbt models
+      run: dbt build --target $DBT_TARGET_ENV
