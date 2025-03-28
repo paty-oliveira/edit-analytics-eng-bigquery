@@ -7,8 +7,8 @@ on:
     branches: [ "main" ]
 
 env:
-  EDIT_PROJECT_ID: ${{ vars.EDIT_PROJECT_ID }}
-  EDIT_KEYFILE_GCP: ${{ secrets.EDIT_KEYFILE_GCP }}
+  PROJECT_ID: ${{ vars.EDIT_PROJECT_ID }}
+  KEYFILE_GCP: ${{ secrets.EDIT_KEYFILE_GCP }}
   DBT_PROJECT_DIR: ./starbucks_dw
   DBT_TARGET_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
@@ -30,10 +30,13 @@ jobs:
 
     - name: Create Google Cloud credentials file
       run: |
-        echo "${{ env.EDIT_KEYFILE_GCP }}" > gcp-keyfile.json
+        echo "${{ env.KEYFILE_GCP }}" > gcp-keyfile.json
 
     - name: Set environment variable for credentials
-      run: echo "EDIT_GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcp-keyfile.json" >> $GITHUB_ENV
+      run: |
+        echo "EDIT_GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcp-keyfile.json" >> $GITHUB_ENV
+        ls -al
+        echo $pwd
 
     - name: Configure dbt profiles.yml
       run: |
@@ -44,21 +47,22 @@ jobs:
           outputs:
             dev:
               dataset: starbucks_dev
-              keyfile: "$PWD/gcp-keyfile.json"
+              keyfile: ${{ env.EDIT_GOOGLE_APPLICATION_CREDENTIALS }}
               location: EU
               method: service-account
-              project: '${{ vars.EDIT_PROJECT_ID }}'
+              project: ${{ env.PROJECT_ID }}
               threads: 4
               type: bigquery
             prod:
               dataset: starbucks_prod
-              keyfile: "$PWD/gcp-keyfile.json"
+              keyfile: ${{ env.EDIT_GOOGLE_APPLICATION_CREDENTIALS }}
               location: EU
               method: service-account
-              project: '${{ vars.EDIT_PROJECT_ID }}'
+              project: ${{ env.PROJECT_ID }}
               threads: 4
               type: bigquery
         EOF
+        ls -al
 
     - name: Verify dbt profiles.yml
       run: cat ~/.dbt/profiles.yml
