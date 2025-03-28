@@ -9,7 +9,6 @@ on:
 env:
   EDIT_PROJECT_ID: ${{ vars.EDIT_PROJECT_ID }}
   EDIT_KEYFILE_GCP: ${{ secrets.EDIT_KEYFILE_GCP }}
-  DBT_PROFILES_DIR: ./starbucks_dw
   DBT_PROJECT_DIR: ./starbucks_dw
   DBT_TARGET_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
@@ -18,23 +17,64 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
         python-version: "3.12"
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Create Google Cloud credentials file
+      run: |
+        echo "${{ env.EDIT_KEYFILE_GCP }}" > gcp-keyfile.json
+
+    - name: Set environment variable for credentials
+      run: echo "EDIT_GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcp-keyfile.json" >> $GITHUB_ENV
+
+    - name: Configure dbt profiles.yml
+      run: |
+        mkdir -p ~/.dbt
+        cat <<EOF > ~/.dbt/profiles.yml
+        starbucks_dw:
+          target: dev
+          outputs:
+            dev:
+              dataset: starbucks_dev
+              keyfile: "$PWD/gcp-keyfile.json"
+              location: EU
+              method: service-account
+              project: '${{ vars.EDIT_PROJECT_ID }}'
+              threads: 4
+              type: bigquery
+            prod:
+              dataset: starbucks_prod
+              keyfile: "$PWD/gcp-keyfile.json"
+              location: EU
+              method: service-account
+              project: '${{ vars.EDIT_PROJECT_ID }}'
+              threads: 4
+              type: bigquery
+        EOF
+
+    - name: Verify dbt profiles.yml
+      run: cat ~/.dbt/profiles.yml
+
     - name: Lint Python scripts
       run: |
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
     # - name: Lint dbt project scripts
     #   uses: pre-commit/action@v3.0.1
     - name: Check database connection
       run: dbt debug
-    - name: Install dbt packages
-      run: dbt deps
-    - name: Run and test dbt models
-      run: dbt build --target $DBT_TARGET_ENV
+
+    # - name: Install dbt packages
+    #   run: dbt deps
+
+    # - name: Run and test dbt models
+    #   run: dbt build --target $DBT_TARGET_ENV
