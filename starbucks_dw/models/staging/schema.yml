@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: stg_promos
+    config:
+      contract:
+        enforced: true
+    description: Information about the promotional offers that are possible to receive, and basic information about each one.
+    columns:
+      - name: promo_id
+        description: Unique identifier/Surrogate key for each promo.
+        data_type: string
+        data_tests:
+          - not_null
+          - unique
+      - name: reward
+        description: Reward given for completing an offer.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: duration
+        description: Time in minutes for the offer to be open.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: difficulty_rank
+        description: Minimum required spend to complete the offer.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: promo_type
+        description: Type of promo.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - bogo
+                - discount
+                - informational
+      - name: channels
+        description: A list of channels through which the offer was received.
+        data_type: array<string>
+      - name: ingested_at
+        description: Timestamp when the data was ingested.
+        data_type: timestamp
+        data_tests:
+          - not_null
