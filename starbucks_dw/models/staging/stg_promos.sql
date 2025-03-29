@@ -1,6 +1,5 @@
 with
     transformed as (
-
         select
             id as promo_id,
             reward,
