@@ -1,0 +1,337 @@
+version: 2
+
+models:
+  - name: dim_date
+    config:
+      contract:
+        enforced: true
+    description: Dimension table about the date.
+    columns:
+      - name: date_day
+        description: Date.
+      - name: prior_date_day
+        description: Date of the previous day.
+      - name: next_date_day
+        description: Date of the next day.
+      - name: prior_year_date_day
+        description: Date of the same day in the previous year.
+      - name: prior_year_over_year_date_day
+        description: Date of the same day in the year before the previous year.
+      - name: day_of_week
+        description: Day of the week.
+      - name: day_of_week_name
+        description: Name of the day of the week.
+      - name: day_of_week_name_short
+        description: Short name of the day of the week.
+      - name: day_of_month
+        description: Day of the month.
+      - name: day_of_year
+        description: Day of the year.
+      - name: week_start_date
+        description: Start date of the week.
+      - name: week_end_date
+        description: End date of the week.
+      - name: prior_year_week_start_date
+        description: Start date of the week in the previous year.
+      - name: prior_year_week_end_date
+        description: End date of the week in the previous year.
+      - name: week_of_year
+        description: Week of the year.
+      - name: iso_week_start_date
+        description: Start date of the ISO week.
+      - name: iso_week_end_date
+        description: End date of the ISO week.
+      - name: prior_year_iso_week_start_date
+        description: Start date of the ISO week in the previous year.
+      - name: prior_year_iso_week_end_date
+        description: End date of the ISO week in the previous year.
+      - name: iso_week_of_year
+        description: ISO week of the year.
+      - name: prior_year_week_of_year
+        description: Week of the year in the previous year.
+      - name: prior_year_iso_week_of_year
+        description: ISO week of the year in the previous year.
+      - name: month_of_year
+        description: Month of the year.
+      - name: month_name
+        description: Name of the month.
+      - name: month_name_short
+        description: Short name of the month.
+      - name: month_start_date
+        description: Start date of the month.
+      - name: month_end_date
+        description: End date of the month.
+      - name: prior_year_month_start_date
+        description: Start date of the month in the previous year.
+      - name: prior_year_month_end_date
+        description: End date of the month in the previous year.
+      - name: quarter_of_year
+        description: Quarter of the year.
+      - name: quarter_start_date
+        description: Start date of the quarter.
+      - name: quarter_end_date
+        description: End date of the quarter.
+      - name: year_number
+        description: Year number.
+      - name: year_start_date
+        description: Start date of the year.
+      - name: year_end_date
+        description: End date of the year.
+      - name: ingested_at
+        description: Timestamp when the data was ingested.
+
+  - name: dim_customer
+    config:
+      contract:
+        enforced: true
+    description: >
+      Dimension table about the customers that are part of the promotional offers program.
+    columns:
+      - name: customer_id
+        description: Unique identifier for each customer.
+        data_type: string
+        data_tests:
+          - not_null
+          - unique
+      - name: gender
+        description: Gender of the customer.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - M
+                - F
+                - O
+                - N/A
+      - name: age
+        description: Age of the customer.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: income
+        description: Income of the customer.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: subscribed_date
+        description: Date when the customer created an app account.
+        data_type: date
+        data_tests:
+          - not_null
+      - name: ingested_at
+        description: Timestamp when the data was ingested.
+        data_type: timestamp
+        data_tests:
+          - not_null
+
+  - name: dim_promo
+    config:
+      contract:
+        enforced: true
+    description: >
+      Dimension table about the promotional offers that are part of the promotional offers program.
+    columns:
+      - name: promo_channel_key
+        description: Unique identifier/surrogate key for each promo-channel combination.
+        data_type: string
+        data_tests:
+          - not_null
+          - unique
+      - name: promo_id
+        description: Unique identifier for each promotion.
+        data_type: string
+      - name: promo_type
+        description: Type of promotion.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - bogo
+                - discount
+                - informational
+      - name: channel
+        description: A list of channels through which the offer was received.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - email
+                - mobile
+                - social
+                - web
+      - name: difficulty_rank
+        description: Minimum spending required to complete an offer.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: reward
+        description: Reward given upon completion of the offer.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: duration
+        description: Time in minutes for the offer to be open.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: ingested_at
+        description: Timestamp when the data was ingested.
+        data_type: timestamp
+        data_tests:
+          - not_null
+
+  - name: fct_promos_transactions
+    config:
+      contract:
+        enforced: true
+    description: >
+      Fact table about the transactions that are part of the promotional offers program.
+    columns:
+      - name: promo_transaction_key
+        description: Unique identifier for each promotion performance.
+        data_type: string
+        data_tests:
+          - not_null
+          - unique
+      - name: promo_id
+        description: Unique identifier for each promotion.
+        data_type: string
+      - name: transaction_id
+        description: Unique identifier for each transaction.
+        data_type: string
+        data_tests:
+          - not_null
+      - name: promo_type
+        description: Type of promotion.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - bogo
+                - discount
+                - informational
+      - name: promo_channel
+        description: A list of channels through which the offer was received.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - email
+                - mobile
+                - social
+                - web
+      - name: promo_difficulty_rank
+        description: Minimum spending required to complete an offer.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: promo_duration
+        description: Time in minutes for the offer to be open.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: promo_reward
+        description: Reward given upon completion of the offer.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: transaction_status
+        description: Status of the transaction.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - received
+                - viewed
+                - completed
+                - transaction
+      - name: hours_since_start
+        description: Time in hours since the offer was received.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: days_since_start
+        description: Time in days since the offer was received.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: ingested_at
+        description: Timestamp when the data was ingested.
+        data_type: timestamp
+        data_tests:
+          - not_null
+
+  - name: fact_customers_transactions
+    config:
+      contract:
+        enforced: true
+    description: >
+      Fact table about the customer transactions through the promotional offers program.
+    columns:
+      - name: customer_transaction_key
+        description: Unique identifier for each customer journey.
+        data_type: string
+        data_tests:
+          - not_null
+          - unique
+      - name: transaction_id
+        description: Unique identifier for each transaction.
+        data_type: string
+        data_tests:
+          - not_null
+      - name: customer_id
+        description: Unique identifier for each customer.
+        data_type: string
+        data_tests:
+          - not_null
+      - name: promo_id
+        description: Unique identifier for each promotion.
+        data_type: string
+      - name: gender
+        description: Gender of the customer.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - M
+                - F
+                - O
+                - N/A
+      - name: age
+        description: Age of the customer.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: income
+        description: Income of the customer.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: transaction_status
+        description: Status of the transaction.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - received
+                - viewed
+                - completed
+                - transaction
+      - name: customer_subscribed_date
+        description: Date when the customer created an app account.
+        data_type: date
+        data_tests:
+          - not_null
+      - name: ingested_at
+        description: Timestamp when the data was ingested.
+        data_type: timestamp
+        data_tests:
+          - not_null

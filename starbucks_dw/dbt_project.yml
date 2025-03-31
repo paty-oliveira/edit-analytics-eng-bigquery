@@ -1,6 +1,6 @@
-name: 'starbucks_dw'
-version: '1.0.0'
-profile: 'starbucks_dw'
+name: "starbucks_dw"
+version: "1.0.0"
+profile: "starbucks_dw"
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -17,3 +17,5 @@ models:
   starbucks_dw:
     staging:
       +materialized: view
+    marts:
+      +materialized: table
