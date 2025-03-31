@@ -22,7 +22,7 @@ with
             transaction_type,
             hours_since_start,
             cast(days_since_start as integer) as days_since_start,
-            cast(json_extract(transaction_value, "$.offer id") as string) as promo_id,
+            json_extract(transaction_value, "$.offer id") as promo_id,
             json_extract(transaction_value, "$.reward") as reward,
             json_extract(transaction_value, "$.amount") as amount,
         from cleaned_transactions
@@ -33,7 +33,7 @@ with
             {{ dbt_utils.generate_surrogate_key(surrogate_key_columns) }}
             as transaction_id,
             customer_id,
-            promo_id,
+            cast(promo_id as string) as promo_id,
             transaction_type,
             hours_since_start,
             days_since_start,
