@@ -1,4 +1,4 @@
-{{config(enabled = false)}}
+{{ config(enabled=false) }}
 
 select 1
 union all
