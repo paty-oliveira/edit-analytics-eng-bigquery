@@ -267,7 +267,7 @@ models:
         data_tests:
           - not_null
 
-  - name: fact_customers_transactions
+  - name: fct_customers_transactions
     config:
       contract:
         enforced: true
