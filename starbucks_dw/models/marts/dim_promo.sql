@@ -16,7 +16,7 @@ with
     final as (
         select
             {{ dbt_utils.generate_surrogate_key(surrogate_key_columns) }}
-            as offer_channel_key,
+            as promo_channel_key,
             promo_id,
             promo_type,
             channel,
