@@ -9,7 +9,7 @@ with
             reward,
             duration,
             ingested_at,
-            cast(channel as string) as channel
+            channel
         from {{ ref("stg_promos") }}, unnest(channels) as channel
     ),
 

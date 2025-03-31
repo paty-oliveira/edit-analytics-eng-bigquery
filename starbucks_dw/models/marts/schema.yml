@@ -158,10 +158,10 @@ models:
           - not_null
           - accepted_values:
               values:
-                - 'email'
-                - 'mobile'
-                - 'social'
-                - 'web'
+                - email
+                - mobile
+                - social
+                - web
       - name: difficulty_rank
         description: Minimum spending required to complete an offer.
         data_type: int64
@@ -221,10 +221,10 @@ models:
           - not_null
           - accepted_values:
               values:
-                - 'email'
-                - 'mobile'
-                - 'social'
-                - 'web'
+                - email
+                - mobile
+                - social
+                - web
       - name: promo_difficulty_rank
         description: Minimum spending required to complete an offer.
         data_type: int64
