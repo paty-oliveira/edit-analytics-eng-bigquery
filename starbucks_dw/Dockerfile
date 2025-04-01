@@ -28,4 +28,4 @@ WORKDIR /opt/dbt/
 # Install dbt dependencies
 RUN dbt deps
 
-ENTRYPOINT [ "dbt" ]
+CMD ["tail", "-f", "/dev/null"]

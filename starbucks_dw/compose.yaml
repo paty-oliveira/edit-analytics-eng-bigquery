@@ -2,7 +2,8 @@ services:
   dbt:
     build: .
     environment:
-      - GOOGLE_APPLICATION_CREDENTIALS=${KEYFILE_PATH}
-      - PROJECT_ID=${GCP_PROJECT_ID}
+      GOOGLE_APPLICATION_CREDENTIALS: /root/secrets/service_account.json
+      PROJECT_ID: ${GCP_PROJECT_ID}
     volumes:
       - ${KEYFILE_PATH}:/root/secrets/service_account.json
+      - ./:/opt/dbt/
