@@ -3,12 +3,22 @@ WIP
 
 
 ## Setup the enviroment with Docker
-Firstly, ensure you have Docker installed and running. Next, navigate to `starbucks_dw` folder and follow the following instructions.
+Firstly, ensure you have Docker installed and running. Next, navigate to `starbucks_dw` folder and follow the instructions.
 
-### Setup environment variables
+### Pre-commit hooks
+Ensure you have Python 3.12 installed in your machine.
+
+
+Install pre-commit hooks by running the following command:
+
+```
+pre-commit install
+```
+
+### Add environment variables
 1. Rename the `.env_edit` file to `.env` and fill up with the required information:
-- Google Cloud Keyfile path: `KEYFILE_PATH`
-- BigQuery Project id: `GCP_PROJECT_ID`
+- `KEYFILE_PATH`: pointing to the path of Google Cloud Keyfile in your machine
+- `GCP_PROJECT_ID`: BigQuery project identifier
 
 2. Create a new environment variable called `SCHEMA_PREFIX` and set it to your first name. This variable will be used to add a prefix to BigQuery dataset. Make sure you store this environment variable in `~/.bashrc` or `~/.zshrc` (for MacOs users).
 
@@ -36,7 +46,7 @@ docker ps
 docker compose exec dbt bash
 ```
 
-4. Now you are in an interactive terminal where you can run dbt commands. Run the following to check if dbt is running properply:
+4. Now you are in an interactive terminal where you can run dbt commands. Run the following command to check if dbt is running properply:
 
 ```
 dbt debug
@@ -55,11 +65,12 @@ docker compose stop dbt
 ```
 
 
+
 ## Setup the enviroment with Python virtual environment
 Ensure you have Python 3.12 installed in your machine.
 
 
-### Setup environment variables
+### Add environment variables
 Make sure you store all the environment variables in `~/.bashrc` or `~/.zshrc` (for MacOs users).
 
 
@@ -69,7 +80,7 @@ Make sure you store all the environment variables in `~/.bashrc` or `~/.zshrc` (
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/user1/gcp_keys/service_account.json"
 ```
 
-2. Create a new environment variabled called `PROJECT_ID` and set it to the BigQuery project id:
+2. Create a new environment variabled called `PROJECT_ID` and set it to the BigQuery project identifier:
 
 ```
 export EDIT_PROJECT_ID="data-eng-dev-xxxx"
@@ -82,6 +93,36 @@ export EDIT_PROJECT_ID="data-eng-dev-xxxx"
 export SCHEMA_PREFIX='your_first_name'
 ```
 
-### Setup Python virtual environment
+### Create Python virtual environment
 
-WIP
+1. Create a Python virtual environment:
+
+```
+python3 -m venv venv
+pip instal -U pip
+```
+
+2. Install Python dependencies:
+
+```
+pip install -r requirements.txt
+```
+
+3. Activate the virtual environment. Make sure you always have the virtual environment activated when running dbt.
+
+```
+source ./venv/bin/activate
+```
+
+4. Navigate to `starbucks_dw` folder and run the following command to check if dbt is running properply. All
+the dbt commands must be executed under `starbucks_dw` folder.
+
+```
+dbt debug --profiles-dir .
+```
+
+5. Install pre-commit hooks by running the following command:
+
+```
+pre-commit install
+```
