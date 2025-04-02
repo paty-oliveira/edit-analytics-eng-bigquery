@@ -1,6 +1,9 @@
 ## How to start
-WIP
-
+1. Fork this repository and clone it locally. If you're unsure how to fork a repository, check this tutorial.
+2. Set up your local enviroment with [Docker](#setup-the-enviroment-with-docker) or [Python virtual environment](#setup-the-enviroment-with-python-virtual-environment).
+3. Solve the exercises provided during the classroom sessions by committing your changes.
+4. Once all exercises are completed, create a Pull request to this repository. If you're unsure how to create a pull request from a fork, refer to this tutorial.
+5. Ensure your code passes the automated tests.
 
 ## Setup the enviroment with Docker
 Firstly, ensure you have Docker installed and running. Next, navigate to `starbucks_dw` folder and follow the instructions.
@@ -9,11 +12,18 @@ Firstly, ensure you have Docker installed and running. Next, navigate to `starbu
 Ensure you have Python 3.12 installed in your machine.
 
 
-Install pre-commit hooks by running the following command:
+1. Install pre-commit hooks by running the following command:
 
 ```
 pre-commit install
 ```
+
+2. Run pre-commit hooks against all the files
+
+```
+pre-commit run --all-files
+```
+
 
 ### Add environment variables
 1. Rename the `.env_edit` file to `.env` and fill up with the required information:
@@ -125,4 +135,10 @@ dbt debug --profiles-dir .
 
 ```
 pre-commit install
+```
+
+6. Run pre-commit hooks against all the files
+
+```
+pre-commit run --all-files
 ```
