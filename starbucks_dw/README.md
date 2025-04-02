@@ -26,7 +26,7 @@ These datasets were provided by Starbucks to simulate customers and transaction 
 ## Conceptual Model
 The following diagram shows the conceptual model of the Starbucks Customer data. Each box represents a domain's entity on the Starbucks business processes. The business events identified are: **transaction** and **promotional offer**.
 
-**TODO: Add conceptual model diagram**
+![Conceptual model of Starbucks Customer data](./diagrams/conceptual_model.png)
 
 Based on the diagram above, it is possible to identify the domain's entities which provide context to the business event (who, what, where, why, how):
 - *customer*
