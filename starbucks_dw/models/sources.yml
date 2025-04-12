@@ -5,19 +5,6 @@ sources:
     database: "{{ target.database }}"
     schema: starbucks_raw
     tables:
-      - name: customers
-        description: Information about the customers that are part of the promotional offers program.
-        columns:
-          - name: gender
-            description: Gender of the customer.
-          - name: age
-            description: Age of the customer.
-          - name: id
-            description: Unique identifier for each customer.
-          - name: become_member_on
-            description: Date when the customer created an app account.
-          - name: income
-            description: Income of the customer.
       - name: promos
         description: Information about the promotional offers that are possible to receive, and basic information about each one.
         columns:

@@ -29,3 +29,6 @@ WORKDIR /opt/dbt/
 RUN dbt deps
 
 CMD ["tail", "-f", "/dev/null"]
+
+# Expose 8080 port for dbt documentation
+EXPOSE 8080

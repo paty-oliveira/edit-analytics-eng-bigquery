@@ -7,3 +7,5 @@ services:
     volumes:
       - ${KEYFILE_PATH}:/root/secrets/service_account.json
       - ./:/opt/dbt/
+    ports:
+      - "8080:80"
