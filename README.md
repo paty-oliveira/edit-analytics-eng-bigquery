@@ -93,7 +93,7 @@ export GOOGLE_APPLICATION_CREDENTIALS="/Users/user1/gcp_keys/service_account.jso
 2. Create a new environment variabled called `PROJECT_ID` and set it to the BigQuery project identifier:
 
 ```
-export EDIT_PROJECT_ID="data-eng-dev-xxxx"
+export PROJECT_ID="data-eng-dev-xxxx"
 ```
 
 
