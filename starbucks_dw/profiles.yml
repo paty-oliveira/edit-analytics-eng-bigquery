@@ -3,9 +3,8 @@ starbucks_dw:
   outputs:
     dev:
       dataset: starbucks_dev
-      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
       location: EU
-      method: service-account
+      method: oauth
       project: "{{ env_var('PROJECT_ID') }}"
       threads: 4
       type: bigquery
