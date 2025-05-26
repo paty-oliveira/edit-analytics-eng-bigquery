@@ -6,7 +6,7 @@
 5. Ensure your code passes the automated tests.
 
 ## Setup the enviroment with Docker
-Firstly, ensure you have Docker installed and running. Next, navigate to `starbucks_dw` folder and follow the instructions.
+Firstly, ensure you have Docker installed and running.
 
 ### Pre-commit hooks
 Ensure you have Python 3.12 installed in your machine.
@@ -37,6 +37,7 @@ export SCHEMA_PREFIX='your_first_name'
 ```
 
 ### Build and start Docker container
+Navigate to `starbucks_dw` folder and follow the instructions.
 
 1. Build and start the container:
 
@@ -79,15 +80,16 @@ docker compose stop dbt
 ## Setup the enviroment with Python virtual environment
 Ensure you have Python 3.12 installed in your machine.
 
-
 ### Add environment variables
 Make sure you store all the environment variables in `~/.bashrc` or `~/.zshrc` (for MacOs users).
 
 
-1. Create a new environment variable called `GOOGLE_APPLICATION_CREDENTIALS` and set it to the path you store the Keyfile of Google Cloud.
+1. Make sure the `gcloud` command is installed on your computed. If not, use [this guide](https://cloud.google.com/sdk/docs/install) for it.
+
+2. Activate `gcloud` authentication via terminal by running the following command:
 
 ```
-export GOOGLE_APPLICATION_CREDENTIALS="/Users/user1/gcp_keys/service_account.json"
+gcloud auth application-default login
 ```
 
 2. Create a new environment variabled called `PROJECT_ID` and set it to the BigQuery project identifier:
