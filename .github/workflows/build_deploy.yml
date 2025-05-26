@@ -9,6 +9,7 @@ on:
 env:
   PROJECT_ID: ${{ vars.EDIT_PROJECT_ID }}
   KEYFILE_GCP: ${{ secrets.EDIT_KEYFILE_GCP }}
+  SCHEMA_PREFIX: ${{ vars.SCHEMA_PREFIX }}
   DBT_PROJECT_DIR: ./starbucks_dw
   DBT_PROFILES_DIR: ./starbucks_dw
   DBT_TARGET_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
