@@ -27,7 +27,8 @@ pre-commit run --all-files
 
 ### Add environment variables
 1. Rename the `.env_edit` file to `.env` and fill up with the required information:
-- `KEYFILE_PATH`: pointing to the path of Google Cloud Keyfile in your machine
+- `GCLOUD_CREDENTIALS_FILEPATH`: pointing to the path of `gcloud` default credentials. Usually it's available on `~/.config/gcloud/application_default_credentials.json`
+
 - `GCP_PROJECT_ID`: BigQuery project identifier
 
 2. Create a new environment variable called `SCHEMA_PREFIX` and set it to your first name. This variable will be used to add a prefix to BigQuery dataset. Make sure you store this environment variable in `~/.bashrc` or `~/.zshrc` (for MacOs users).

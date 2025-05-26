@@ -2,10 +2,10 @@ services:
   dbt:
     build: .
     environment:
-      GOOGLE_APPLICATION_CREDENTIALS: /root/secrets/service_account.json
+      GOOGLE_APPLICATION_CREDENTIALS: /root/secrets/application_default_credentials.json
       PROJECT_ID: ${GCP_PROJECT_ID}
     volumes:
-      - ${KEYFILE_PATH}:/root/secrets/service_account.json
+      - ${GCLOUD_CREDENTIALS_FILEPATH}:/root/secrets/application_default_credentials.json
       - ./:/opt/dbt/
     ports:
       - "8080:8080"
