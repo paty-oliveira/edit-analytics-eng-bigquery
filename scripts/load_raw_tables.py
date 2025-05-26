@@ -3,7 +3,7 @@ from google.cloud import bigquery
 import os
 import pandas as pd
 
-SERVICE_ACCOUNT_FILE = os.getenv("EDIT_KEYFILE_GCP")
+SERVICE_ACCOUNT_FILE = os.getenv("EDIT_SERVICE_ACCOUNT_FILE")
 
 
 def load_data_into_tables(files, dataset_name):
