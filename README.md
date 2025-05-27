@@ -2,7 +2,7 @@
 1. Clone this repository on your local machine and create a branch like this: `feature-[your_first_name]-starbucks-data-models`
 2. Set up your local enviroment with [Docker](#setup-the-enviroment-with-docker) or [Python virtual environment](#setup-the-enviroment-with-python-virtual-environment).
 3. Solve the exercises provided during the classroom sessions by committing your changes.
-4. Once all exercises are completed, create a pull request to this repository.
+4. Once all exercises are completed, create a pull request to this repository. Please follow the [instructions](#pull-request).
 5. Ensure your code passes the automated tests.
 
 ## Setup the enviroment with Docker
@@ -32,10 +32,10 @@ pre-commit run --all-files
 
 - `GCP_PROJECT_ID`: BigQuery project identifier. It will be provided during the onboarding session.
 
-2. Create a new environment variable called `SCHEMA_PREFIX` and set it to your github name. This variable will be used to add a prefix to BigQuery dataset. Make sure you store this environment variable in `~/.bashrc` or `~/.zshrc` (for MacOs users).
+2. Create a new environment variable called `SCHEMA_PREFIX` and set it to your first name. This variable will be used to add a prefix to BigQuery dataset. Make sure you store this environment variable in `~/.bashrc` or `~/.zshrc` (for MacOs users).
 
 ```
-export SCHEMA_PREFIX='your_github_name'
+export SCHEMA_PREFIX='your_first_name'
 ```
 
 ### Build and start Docker container
@@ -101,10 +101,10 @@ Make sure you store all the environment variables in `~/.bashrc` or `~/.zshrc` (
 export PROJECT_ID="data-eng-dev-xxxx"
 ```
 
-2. Create a new environment variable called `SCHEMA_PREFIX` and set it to your github name. This variable will be used to add a prefix to BigQuery dataset.
+2. Create a new environment variable called `SCHEMA_PREFIX` and set it to your first name. This variable will be used to add a prefix to BigQuery dataset.
 
 ```
-export SCHEMA_PREFIX='your_github_name'
+export SCHEMA_PREFIX='your_first_name'
 ```
 
 ### Create Python virtual environment
@@ -146,3 +146,20 @@ pre-commit install
 ```
 pre-commit run --all-files
 ```
+
+## Pull Request
+
+1. Your branch must follow pattern: `feature-[your_first_name]-starbucks-data-models`.
+2. Change `schema_prefix` variable in `dbt_project.yml` file and set it to the same you used on your environment variable `SCHEMA_PREFIX`:
+
+Example: if your variable is equal to `export SCHEMA_PREFIX='your_first_name`, then in `dbt_project.yml` file you must have a similar thing:
+```
+vars:
+  schema_prefix: "your_first_name"
+```
+
+This will ensure your models be materialised in your personal dataset in BigQuery.
+
+3. Commit all the changes.
+4. Push your branch to remote repository.
+5. Create a pull request in Github. If you are not sure how to do it, please follow this [guide](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).

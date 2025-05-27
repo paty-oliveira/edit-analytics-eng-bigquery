@@ -43,15 +43,6 @@ jobs:
         echo "$KEYFILE_GCP" > $HOME/gcp-key.json
         echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcp-key.json" >> $GITHUB_ENV
 
-    - name: Set dynamic schema prefix
-      run: |
-        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-          ACTOR=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
-          echo "SCHEMA_PREFIX=${ACTOR}" >> $GITHUB_ENV
-        else
-          echo "SCHEMA_PREFIX=${{ vars.SCHEMA_PREFIX }}" >> $GITHUB_ENV
-        fi
-
     - name: Lint Python scripts
       run: |
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
