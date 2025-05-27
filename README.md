@@ -1,8 +1,8 @@
 ## How to start
-1. Fork this repository and clone it locally. If you're unsure how to fork a repository, check this tutorial.
+1. Clone this repository on your local machine and create a branch like this: `feature-[your_first_name]-starbucks-data-models`
 2. Set up your local enviroment with [Docker](#setup-the-enviroment-with-docker) or [Python virtual environment](#setup-the-enviroment-with-python-virtual-environment).
 3. Solve the exercises provided during the classroom sessions by committing your changes.
-4. Once all exercises are completed, create a Pull request to this repository. If you're unsure how to create a pull request from a fork, refer to this tutorial.
+4. Once all exercises are completed, create a pull request to this repository.
 5. Ensure your code passes the automated tests.
 
 ## Setup the enviroment with Docker
@@ -26,15 +26,16 @@ pre-commit run --all-files
 
 
 ### Add environment variables
-1. Rename the `.env_edit` file to `.env` and fill up with the required information:
+1. Rename the `.env_edit` file to `.env` and fill up with the required information (available on `starbucks_dw/` folder):
+
 - `GCLOUD_CREDENTIALS_FILEPATH`: pointing to the path of `gcloud` default credentials. Usually it's available on `~/.config/gcloud/application_default_credentials.json`
 
-- `GCP_PROJECT_ID`: BigQuery project identifier
+- `GCP_PROJECT_ID`: BigQuery project identifier. It will be provided during the onboarding session.
 
-2. Create a new environment variable called `SCHEMA_PREFIX` and set it to your first name. This variable will be used to add a prefix to BigQuery dataset. Make sure you store this environment variable in `~/.bashrc` or `~/.zshrc` (for MacOs users).
+2. Create a new environment variable called `SCHEMA_PREFIX` and set it to your github name. This variable will be used to add a prefix to BigQuery dataset. Make sure you store this environment variable in `~/.bashrc` or `~/.zshrc` (for MacOs users).
 
 ```
-export SCHEMA_PREFIX='your_first_name'
+export SCHEMA_PREFIX='your_github_name'
 ```
 
 ### Build and start Docker container
@@ -81,11 +82,8 @@ docker compose stop dbt
 ## Setup the enviroment with Python virtual environment
 Ensure you have Python 3.12 installed in your machine.
 
-### Add environment variables
-Make sure you store all the environment variables in `~/.bashrc` or `~/.zshrc` (for MacOs users).
-
-
-1. Make sure the `gcloud` command is installed on your computed. If not, use [this guide](https://cloud.google.com/sdk/docs/install) for it.
+### Google Cloud CLI
+1. Install `gcloud` on your computer. Please, follow [this guide](https://cloud.google.com/sdk/docs/install) for it.
 
 2. Activate `gcloud` authentication via terminal by running the following command:
 
@@ -93,17 +91,20 @@ Make sure you store all the environment variables in `~/.bashrc` or `~/.zshrc` (
 gcloud auth application-default login
 ```
 
-2. Create a new environment variabled called `PROJECT_ID` and set it to the BigQuery project identifier:
+
+### Add environment variables
+Make sure you store all the environment variables in `~/.bashrc` or `~/.zshrc` (for MacOs users).
+
+1. Create a new environment variable called `PROJECT_ID` and set it to the BigQuery project identifier:
 
 ```
 export PROJECT_ID="data-eng-dev-xxxx"
 ```
 
-
-3. Create a new environment variable called `SCHEMA_PREFIX` and set it to your first name. This variable will be used to add a prefix to BigQuery dataset.
+2. Create a new environment variable called `SCHEMA_PREFIX` and set it to your github name. This variable will be used to add a prefix to BigQuery dataset.
 
 ```
-export SCHEMA_PREFIX='your_first_name'
+export SCHEMA_PREFIX='your_github_name'
 ```
 
 ### Create Python virtual environment
