@@ -3,3 +3,4 @@ venv/
 .idea/
 logs/
 .env/
+data-analytics-venv
