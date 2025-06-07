@@ -14,7 +14,7 @@ clean-targets:
   - "dbt_packages"
 
 vars:
-  schema_prefix: "daniel"
+  schema_prefix: "{{ env_var('SCHEMA_PREFIX', '') }}"
 
 models:
   starbucks_dw:
