@@ -122,9 +122,17 @@ models:
         data_type: int
         data_tests:
           - not_null
+          - accepted_values:
+              values:
+                - M
+                - F
+                - O
+                - N/A
       - name: age
         description: Age of the customer.
         data_type: int
+        data_tests:
+          - not_null
       - name: income
         description: Income of the customer.
         data_type: int
@@ -133,6 +141,8 @@ models:
       - name: subscribed_date
         description: Date when the customer created an app account.
         data_type: datetime
+        data_tests:
+          - not_null
       - name: ingested_at
         description: Timestamp when the data was ingested.
         data_type: datetime
