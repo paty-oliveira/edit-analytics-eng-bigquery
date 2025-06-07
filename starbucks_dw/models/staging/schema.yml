@@ -135,6 +135,6 @@ models:
         data_type: datetime
       - name: ingested_at
         description: Timestamp when the data was ingested.
-        data_type: timestamp
+        data_type: datetime
         data_tests:
           - not_null
