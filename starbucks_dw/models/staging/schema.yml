@@ -114,7 +114,7 @@ models:
         description: Age of the customer.
       - name: customer_id
         description: Unique identifier for each customer.
-      - name: became_member_on
+      - name: subscribed_date
         description: Date when the customer created an app account.
       - name: income
         description: Income of the customer.
