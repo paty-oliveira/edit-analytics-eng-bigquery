@@ -1,4 +1,3 @@
-{{ config(enabled=false) }}
 
 {% set surrogate_key_columns = [
     "transactions.transaction_id",

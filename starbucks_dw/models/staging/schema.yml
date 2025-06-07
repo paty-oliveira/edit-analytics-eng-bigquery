@@ -12,28 +12,28 @@ models:
       - name: promo_id
         description: Unique identifier/Surrogate key for each promo.
         data_type: string
-        data_tests:
+        tests:
           - not_null
           - unique
       - name: reward
         description: Reward given for completing an offer.
         data_type: int64
-        data_tests:
+        tests:
           - not_null
       - name: duration
         description: Time in minutes for the offer to be open.
         data_type: int64
-        data_tests:
+        tests:
           - not_null
       - name: difficulty_rank
         description: Minimum required spend to complete the offer.
         data_type: int64
-        data_tests:
+        tests:
           - not_null
       - name: promo_type
         description: Type of promo.
         data_type: string
-        data_tests:
+        tests:
           - not_null
           - accepted_values:
               values:
@@ -46,7 +46,7 @@ models:
       - name: ingested_at
         description: Timestamp when the data was ingested.
         data_type: timestamp
-        data_tests:
+        tests:
           - not_null
 
   - name: stg_transactions
@@ -60,13 +60,13 @@ models:
       - name: transaction_id
         description: Unique identifier for each transaction.
         data_type: string
-        data_tests:
+        tests:
           - not_null
           - unique
       - name: customer_id
         description: Unique identifier for each customer.
         data_type: string
-        data_tests:
+        tests:
           - not_null
       - name: promo_id
         description: Unique identifier for each promotion.
@@ -74,7 +74,7 @@ models:
       - name: transaction_type
         description: Type of event. Can be offer received, offer viewed, transaction, or offer completed.
         data_type: string
-        data_tests:
+        tests:
           - not_null
           - accepted_values:
               values:
@@ -91,17 +91,17 @@ models:
       - name: hours_since_start
         description: Time in hours since the start of the test.
         data_type: int64
-        data_tests:
+        tests:
           - not_null
       - name: days_since_start
         description: Time in days since the start of the test.
         data_type: int64
-        data_tests:
+        tests:
           - not_null
       - name: ingested_at
         description: Timestamp when the data was ingested.
         data_type: timestamp
-        data_tests:
+        tests:
           - not_null
 
   - name: stg_customers
@@ -110,13 +110,30 @@ models:
     columns:
       - name: gender
         description: Gender of the customer.
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - M
+                - F
+                - O
+                - N/A
       - name: age
         description: Age of the customer.
+        tests:
+          - not_null
       - name: customer_id
         description: ID of the customer.
+        tests:
+          - not_null
+          - unique
       - name: income
         description: Income of the customer.
+        tests:
+          - not_null
       - name: subscribed_date
         description: Date when the customer created an app account.
+        tests:
+          - not_null
       - name: ingested_at
         description: Inserted date of record.
