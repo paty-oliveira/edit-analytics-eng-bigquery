@@ -7,3 +7,9 @@ macros:
       - name: hours
         description: Number of hours.
         type: integer
+  - name: format_transaction_type
+    description: Format the transaction type to a more readable format.
+    arguments:
+      - name: transaction_type
+        description: The column containing the transaction type.
+        type: string

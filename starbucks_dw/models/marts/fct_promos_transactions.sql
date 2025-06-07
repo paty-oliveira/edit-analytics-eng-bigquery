@@ -32,16 +32,7 @@ with
             promos.difficulty_rank as promo_difficulty_rank,
             promos.duration as promo_duration,
             transactions.reward as promo_reward,
-            case
-                when transactions.transaction_type = "offer received"
-                then "received"
-                when transactions.transaction_type = "offer viewed"
-                then "viewed"
-                when transactions.transaction_type = "offer completed"
-                then "completed"
-                when transactions.transaction_type = "transaction"
-                then "transaction"
-            end as transaction_status,
+            {{ format_transaction_type("transactions.transaction_type")}} as transaction_status,
             transactions.hours_since_start,
             transactions.days_since_start,
             current_timestamp as ingested_at
