@@ -116,7 +116,7 @@ models:
         description: ID of the customer.
       - name: income
         description: Income of the customer.
-      - name: became_member_on
+      - name: subscribed_date
         description: Date when the customer created an app account.
       - name: ingested_at
         description: Inserted date of record.
