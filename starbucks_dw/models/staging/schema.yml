@@ -107,7 +107,7 @@ models:
   - name: stg_customers
     config:
       contract:
-        enforced: false
+        enforced: true
     description: >
       Information about the customers that are part of the promotional offers program.
     columns:
@@ -119,7 +119,7 @@ models:
           - unique
       - name: gender
         description: Gender of the customer.
-        data_type: int
+        data_type: string
         data_tests:
           - not_null
           - accepted_values:
@@ -135,7 +135,7 @@ models:
           - not_null
       - name: income
         description: Income of the customer.
-        data_type: int
+        data_type: float64
         data_tests:
           - not_null
       - name: subscribed_date
@@ -145,6 +145,6 @@ models:
           - not_null
       - name: ingested_at
         description: Timestamp when the data was ingested.
-        data_type: datetime
+        data_type: timestamp
         data_tests:
           - not_null
