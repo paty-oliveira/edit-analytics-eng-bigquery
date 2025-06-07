@@ -16,7 +16,7 @@ WITH cleaned_customers AS (
     COALESCE(income, 0) AS income,
 
     -- Cast become_member_on to DATE (format: YYYYMMDD)
-    PARSE_DATE('%Y%m%d', CAST(became_member_on AS STRING)) AS became_member_on,
+    PARSE_DATE('%Y%m%d', CAST(became_member_on AS STRING)) AS subscribed_date,
 
     -- Add ingested_at column with current timestamp
     CURRENT_TIMESTAMP() AS ingested_at
