@@ -26,7 +26,7 @@ with
             customers.gender,
             customers.age,
             customers.income,
-            {{ format_transaction_type('transaction_type') }}
+            {{ format_transaction_type('transaction.transaction_type') }}
             customers.subscribed_date as customer_subscribed_date,
             current_timestamp as ingested_at
         from transactions
@@ -35,3 +35,4 @@ with
 
 select *
 from final
+

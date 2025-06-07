@@ -32,7 +32,7 @@ with
             promos.difficulty_rank as promo_difficulty_rank,
             promos.duration as promo_duration,
             transactions.reward as promo_reward,
-            {{ format_transaction_type('transaction_type') }}
+            {{ format_transaction_type('transaction.transaction_type') }}
             transactions.hours_since_start,
             transactions.days_since_start,
             current_timestamp as ingested_at
