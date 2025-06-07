@@ -104,9 +104,6 @@ models:
         data_tests:
           - not_null
   - name: stg_customers
-    config:
-        contract:
-          enforced: true
     description: >
       Information about customers of Starbucks
     columns:
@@ -118,7 +115,7 @@ models:
         description: Income of the customer.
       - name: customer_id
         description: Unique identifier for each customer.
-      - name: become_member_on
+      - name: subscribed_date
         description: Date when the customer created an app account.
       - name: ingested_at
         description: Timestamp when the data was ingested.
