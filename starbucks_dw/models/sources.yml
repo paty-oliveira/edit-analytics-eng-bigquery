@@ -40,7 +40,7 @@ sources:
             description: Age of the customer.
           - name: id
             description: Unique identifier for each customer.
-          - name: become_member_on
+          - name: became_member_on
             description: Date when the customer created an app account.
           - name: income
             description: Income of the customer.
