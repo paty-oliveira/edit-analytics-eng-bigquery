@@ -1,12 +1,12 @@
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.3.0
+  rev: v5.0.0
   hooks:
   -   id: check-yaml
   -   id: end-of-file-fixer
   -   id: trailing-whitespace
 - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
-  rev: v1.2.1
+  rev: v2.0.7
   hooks:
   -   id: check-script-semicolon
   -   id: check-script-has-no-table-name
