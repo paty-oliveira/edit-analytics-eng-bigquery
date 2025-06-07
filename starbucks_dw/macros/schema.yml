@@ -7,3 +7,14 @@ macros:
       - name: hours
         description: Number of hours.
         type: integer
+  - name: format_transaction_type
+    description: Returns a standardized transaction type string based on the raw transaction event type.
+    arguments:
+      - name: transaction_type
+        type: string
+        description: >
+          The column or value containing the raw transaction type.
+      - name: column_name
+        type: string
+        description: >
+          The name to use for the resulting column in the SELECT statement.
