@@ -2,26 +2,45 @@ version: 2
 
 models:
   - name: stg_customers
-    description:  >
-       Information about the customers that are part of the promotional offers program.
+    description: >
+      Information about the customers that are part of the promotional offers program.
     columns:
       - name: gender
         description: Gender of the customer.
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - M
+                - F
+                - O
+                - N/A
       - name: age
         description: Age of the customer.
+        data_tests:
+          - not_null
       - name: income
         description: Income of the customer.
+        data_tests:
+          - not_null
       - name: customer_id
         description: Unique identifier for each customer.
+        data_tests:
+          - not_null
+          - unique
       - name: subscribed_date
         description: Date when the customer created an app account.
+        data_tests:
+          - not_null
       - name: ingested_at
         description: Timestamp when the data was ingested.
+        data_tests:
+          - not_null
   - name: stg_promos
     config:
       contract:
         enforced: true
-    description:  >
+    description: >
       Information about the promotional offers that are possible to receive, and basic information
       about each one.
     columns:
