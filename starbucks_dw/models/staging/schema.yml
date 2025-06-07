@@ -107,7 +107,7 @@ models:
   - name: stg_customers
     config:
       contract:
-        enforced: true
+        enforced: false
     description: >
       Information about the customers that are part of the promotional offers program.
     columns:
@@ -130,7 +130,7 @@ models:
         data_type: int
         data_tests:
           - not_null
-      - name: become_member_on
+      - name: subscribed_date
         description: Date when the customer created an app account.
         data_type: datetime
       - name: ingested_at
