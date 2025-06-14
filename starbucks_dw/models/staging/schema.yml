@@ -103,3 +103,45 @@ models:
         data_type: timestamp
         data_tests:
           - not_null
+  - name: stg_customers
+    description: >
+      Information about customers of Starbucks
+columns:
+      - name: customer_id
+        description: "Unique identifier for each customer"
+        data_type: string
+        tests:
+          - not_null
+          - unique
+
+      - name: gender
+        description: "Gender of customer"
+        data_type: string
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['M', 'F', 'O', 'N/A']
+
+      - name: age
+        description: "Age of customer"
+        data_type: int64
+        tests:
+          - not_null
+
+      - name: income
+        description: "Income of customer"
+        data_type: float64
+        tests:
+          - not_null
+
+      - name: subscribed_date
+        description: "Date when customer subscribed"
+        data_type: date
+        tests:
+          - not_null
+
+      - name: ingested_at
+        description: "Timestamp when record was ingested"
+        data_type: timestamp
+        tests:
+          - not_null

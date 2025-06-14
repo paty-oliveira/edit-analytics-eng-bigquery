@@ -31,3 +31,14 @@ sources:
             description: Value/identifier of the event.
           - name: time
             description: Time in hours since the start of the test.
+      - name: customers
+        description: Information about customers of Starbucks
+        columns:
+          - name: gender
+            description: Gender of the customer.
+          - name: age
+            description: Age of the customer.
+          - name: id
+            description: Unique identifier for each customer.
+          - name: become_member_on
+            description: Date when the customer created an app account.
