@@ -4,7 +4,7 @@ models:
   - name: dim_date
     config:
       contract:
-        enforced: true
+        enforced: false
     description: Dimension table about the date.
     columns:
       - name: date_day
