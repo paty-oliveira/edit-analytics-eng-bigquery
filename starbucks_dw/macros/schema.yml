@@ -7,3 +7,10 @@ macros:
       - name: hours
         description: Number of hours.
         type: integer
+
+  - name: format_transaction_type
+    description: Treatment of transaction status
+    arguments:
+      - name: transaction_type
+        description: The type of transaction
+        type: string
