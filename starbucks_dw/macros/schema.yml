@@ -18,3 +18,114 @@ macros:
         type: string
         description: >
           The name to use for the resulting column in the SELECT statement.
+  - name: age_group
+    description: |
+      Categorizes an age value into a standard demographic group using a SQL CASE statement.
+      The age_group macro takes an age value and returns a demographic segment label as a string:
+        - '18-25' for ages less than 26
+        - '26-35' for ages 26-35
+        - '36-45' for ages 36-45
+        - '46-55' for ages 46-55
+        - '56-65' for ages 56-65
+        - '66-75' for ages 66-75
+        - '76-85' for ages 76-85
+        - '86+'   for ages 86 and above
+    arguments:
+      - name: age
+        type: integer
+        description: >
+          The age of the customer.
+      - name: column_name
+        type: string
+        description: |
+          The name to assign to the resulting demographic group column in the SQL output.
+          This will appear as the alias in the SELECT clause.
+  - name: income_group
+    description: |
+      Categorizes an income value into custom income group ranges using a SQL CASE statement.
+      The income_group macro receives an income value and returns an income segment label as a string:
+        - '<30k' for income less than 30000
+        - '30-45k' for income from 30000 up to 44999
+        - '45-60k' for income from 45000 up to 59999
+        - '60-75k' for income from 60000 up to 74999
+        - '75-90k' for income from 75000 up to 89999
+        - '90-105k' for income from 90000 up to 104999
+        - '> 105k' for income of 105000 or more
+    arguments:
+      - name: income
+        type: float64
+        description: >
+          Income of the customer.
+      - name: column_name
+        type: string
+        description: |
+          The name to assign to the resulting income group column in the SQL output.
+          This will appear as the alias in the SELECT clause.
+  - name: subscription_years_group
+    description: |
+      Categorizes the customer subscription date into groups based on the number of years since the customer subscribed.
+      The subscription_years_group macro receives a date column (customer_subscribed_date) and returns a group label according to how many years have passed since subscription:
+        - '0-4'   for subscriptions of less than 5 years
+        - '5-6'   for subscriptions of 5 or 6 years
+        - '7-8'   for subscriptions of 7 or 8 years
+        - '9-10'  for subscriptions of 9 or 10 years
+        - '11-12' for subscriptions of 11 or 12 years
+        - '13+'   for subscriptions of 13 years or more
+    arguments:
+      - name: customer_subscribed_date
+        type: date
+        description: >
+          The date column representing the date the customer subscribed.
+      - name: column_name
+        type: string
+        description: |
+          The name to assign to the resulting subscription years group column in the SQL output.
+          This will appear as the alias in the SELECT clause.
+  - name: get_date_parts
+    description: |
+      Extracts year, month, day, and day of week from a given date.
+      The extract_date_parts macro simplifies creating multiple time-based columns by expanding a date field into four separate columns with a chosen prefix:
+        - `<prefix>_year`: Year part of the date.
+        - `<prefix>_month`: Month part of the date (1-12).
+        - `<prefix>_day`: Day of the month (1-31).
+        - `<prefix>_dayofweek`: Day of the week (1=Sunday, 7=Saturday in BigQuery).
+      This macro is especially useful for time-based aggregations, filtering, and reporting.
+    arguments:
+      - name: date_column
+        type: date
+        description: >
+          The date column from which to extract the date parts.
+      - name: prefix
+        type: string
+        description: |
+          The prefix to use for the resulting columns (e.g., 'subscribed').
+  - name: response_rate
+    description: |
+      Calculates a response rate percentage, rounded to two decimal places.
+      The macro divides the number of responses by the total and multiplies by 100.
+      If `total` is 0, it returns 0 instead of NULL or an error, ensuring safe division.
+    arguments:
+      - name: responses
+        type: integer
+        description: |
+          Numeric expression representing the number of responses (e.g., viewed, completed, transaction, received).
+      - name: total
+        type: integer
+        description: |
+          Numeric expression representing the total opportunities (e.g., view_rate).
+      - name: column_name
+        type: string
+        description: |
+          The name to assign to the resulting percentage column in the SQL output. This will appear as the alias in the SELECT clause.
+  - name: countif_status
+    description: Returns the count of rows where the specified column matches the given status value, with an alias for the output column.
+    arguments:
+      - name: column
+        type: string
+        description: The column or SQL expression to be evaluated.
+      - name: status
+        type: string
+        description: The value to match within the column.
+      - name: alias
+        type: string
+        description: The alias to use for the resulting column in the SQL output.
