@@ -3,41 +3,41 @@ version: 2
 models:
   - name: reporting__customer_promo_response_base
     description: >
-      Base de reporting a nível de cliente que calcula a taxa de resposta a promoções.
-      Útil para segmentações por perfil demográfico e análise de comportamento promocional.
+      Customer-level reporting base that calculates the promotion response rate.
+      Useful for segmentation by demographic profile and promotional behavior analysis.
     columns:
       - name: customer_id
-        description: Identificador único do cliente.
+        description: Unique identifier of the customer.
         tests:
           - not_null
           - unique
       - name: income
-        description: Faixa de rendimento atribuída ao cliente.
+        description: Income bracket assigned to the customer.
         tests:
           - not_null
       - name: age
-        description: Idade do cliente.
+        description: Age of the customer.
         tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 10
               max_value: 150
       - name: gender
-        description: Gênero do cliente.
+        description: Customer gender.
         tests:
           - not_null
           - accepted_values:
               values: ['M', 'F', 'O']
       - name: promo_trans_count
-        description: Número de transações com promoção realizadas pelo cliente.
+        description: Number of transactions with promotion made by the customer.
         tests:
           - not_null
       - name: total_trans_count
-        description: Total de transações (com e sem promoção) feitas pelo cliente.
+        description: Total transactions (with and without promotion) made by the customer.
         tests:
           - not_null
       - name: pct_promo_response
-        description: Percentual de transações com promoção (promo_trans_count / total_trans_count).
+        description: Percentage of transactions with promotion (promo_trans_count / total_trans_count).
         tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_between:

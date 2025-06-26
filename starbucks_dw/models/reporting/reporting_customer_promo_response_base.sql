@@ -21,21 +21,12 @@ customer_dim AS (
 )
 
 SELECT
-    cd.customer_id,
-    cd.income,
-    cd.age,
-    cd.gender,
-
-    COUNT(DISTINCT CASE WHEN t.promo_id IS NOT NULL THEN t.transaction_id END) AS promo_trans_count,
-    COUNT(DISTINCT t.transaction_id) AS total_trans_count,
-
-    SAFE_DIVIDE(
-        COUNT(DISTINCT CASE WHEN t.promo_id IS NOT NULL THEN t.transaction_id END),
-        COUNT(DISTINCT t.transaction_id)
-    ) AS pct_promo_response
-
-FROM transactions t
-JOIN customer_dim cd
-    ON t.customer_id = cd.customer_id
-
-GROUP BY cd.customer_id, cd.income, cd.age, cd.gender
+    dc.customer_id,
+    dc.income,
+    dc.age,
+    dc.gender,
+    {{ format_promo_metrics('fct') }}
+FROM {{ ref('fct_customers_transactions') }} AS fct
+JOIN {{ ref('dim_customer') }} AS dc
+  ON fct.customer_id = dc.customer_id
+GROUP BY dc.customer_id, dc.income, dc.age, dc.gender
