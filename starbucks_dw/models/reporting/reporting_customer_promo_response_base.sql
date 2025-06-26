@@ -1,6 +1,5 @@
 {{ config(
-    materialized = 'table',
-    tags = ['reporting', 'promo', 'customer']
+    materialized = 'table'
 ) }}
 
 WITH transactions AS (

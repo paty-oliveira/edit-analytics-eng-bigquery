@@ -43,3 +43,48 @@ models:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0.0
               max_value: 1.0
+
+  - name: reporting_customer_promo_response_summary
+    description: >
+      Aggregated metrics of promotion response by demographic group (income, gender, age).
+      Enables analysis of promotional behavior patterns across customer segments.
+    columns:
+      - name: income
+        description: Income bracket assigned to the customer.
+        tests:
+          - not_null
+      - name: gender
+        description: Gender of the customer.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['M', 'F', 'O']
+      - name: age
+        description: Age of the customer.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 10
+              max_value: 150
+      - name: total_customers
+        description: Total number of customers in the demographic group.
+        tests:
+          - not_null
+      - name: responded_customers
+        description: Number of customers who responded to at least one promotion.
+        tests:
+          - not_null
+      - name: avg_response_rate
+        description: Average response rate to promotions within the group.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0.0
+              max_value: 1.0
+      - name: pct_customers_responded
+        description: Percentage of customers who responded to at least one promotion in the group.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0.0
+              max_value: 1.0
