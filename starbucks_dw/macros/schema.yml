@@ -13,3 +13,50 @@ macros:
       - name: transaction_type
         description: The column containing the transaction type.
         type: string
+  - name: segment_by_interval
+    description: |
+      Creates a CASE statement to classify numeric values into categorical ranges
+      based on provided intervals and labels. Useful for creating age groups,
+      income brackets, or any other range-based classifications.
+    arguments:
+      - name: column
+        type: string
+        description: The column name or expression to classify
+      - name: intervals
+        type: array
+        description: |
+          Array of numeric thresholds that define the upper bounds of each range.
+          For example, [25, 40, 56] creates ranges: <25, 25-40, 41-56, >56
+      - name: labels
+        type: array
+        description: |
+          Array of string labels for each range. Must have exactly one more label
+          than intervals (n intervals = n+1 labels). Labels correspond to:
+          [<first_interval, first_to_second, second_to_third, >last_interval]
+      - name: default_label
+        type: string
+        description: Label to use for NULL or unmatched values
+  - name: calculate_transaction_status_rate
+    description: |
+      Calculates the rate between two transaction statuses by dividing the count of distinct 
+      transaction IDs with the numerator status by the count of distinct transaction IDs 
+      with the denominator status. Uses SAFE_DIVIDE to handle division by zero and 
+      COALESCE to return 0 for null results.
+    arguments:
+      - name: numerator_status
+        type: string
+        description: |
+          The transaction status value to use in the numerator of the rate calculation.
+          This represents the "successful" or "target" status you want to measure
+          (e.g., 'viewed', 'received').
+      - name: denominator_status
+        type: string
+        description: |
+          The transaction status value to use in the denominator of the rate calculation.
+          This represents the "base" or "total eligible" status from which the rate is calculated
+          (e.g., 'received', 'completed').
+      - name: alias_name
+        type: string
+        description: |
+          The column alias name for the calculated rate metric. This will be the name
+          of the resulting column in your query output (e.g., 'view_rate', 'completion_rate').
