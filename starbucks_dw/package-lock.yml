@@ -3,4 +3,6 @@ packages:
     version: 1.3.0
   - package: godatadriven/dbt_date
     version: 0.14.1
-sha1_hash: 3705e5071d74cf1a23bbc61956ffab7ab914aab6
+  - package: metaplane/dbt_expectations
+    version: 0.10.9
+sha1_hash: 83cd48e371990d6758b1f6a4ed5a236c4925b43a
