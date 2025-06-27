@@ -226,9 +226,9 @@ models:
       contract:
         enforced: true
     description: |
-      Reporting model that analyzes the effectiveness of each communication channel and promotion type in driving customer responses to offers.
-      Each row aggregates the number of promotions received and viewed, and calculates the view rate (in percentage, 0–100), by channel, promotion type, difficulty, reward, duration, and elapsed time since offer start.
-      This model enables business users to compare which channels and types are more effective at engaging customers, as well as trends based on offer characteristics and timing.
+      Reporting model that analyzes the effectiveness of each communication channel and promotion type in driving responses to offers.
+      Each row aggregates the number of promotions received and viewed, calculates the view rate (in percentage, 0–100), average metrics and optimization, by channel, promotion type, difficulty, reward and duration.
+      This model supports business intelligence on channel performance and promotional strategies.
     columns:
       - name: promo_channel
         description: Communication channel through which the offer was delivered (email, mobile, social, web).
