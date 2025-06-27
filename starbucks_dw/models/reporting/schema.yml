@@ -1,0 +1,165 @@
+version: 2
+
+models:
+  - name: rep_customers_transactions
+    config:
+      contract:
+        enforced: true
+    description: >
+      Rep table about the customer transactions through the promotional offers program.
+    columns:
+      - name: customer_id
+        description: Unique identifier for each customer.
+        data_type: string
+        tests:
+          - not_null
+      - name: gender
+        description: Gender of the customer.
+        data_type: string
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - M
+                - F
+                - O
+                - N/A
+      - name: age
+        description: Age of the customer.
+        data_type: int64
+        tests:
+          - not_null
+      - name: income
+        description: Income of the customer.
+        data_type: float64
+        tests:
+          - not_null
+      - name: customer_subscribed_date
+        description: Date when the customer created an app account.
+        data_type: date
+        tests:
+          - not_null
+      - name: age_segment
+        description: Segment of the customer by age.
+        data_type: string
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Gen Z
+                - Gen Y
+                - Gen X
+                - Boomers
+                - Seniors
+      - name: subscription_segment
+        description: Segment of the customer by subscription date.
+        data_type: string
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Newcomer
+                - Engaged
+                - Loyal
+                - Veteran
+                - Legacy Member
+      - name: income_segment
+        description: Segment of the customer by income value.
+        data_type: string
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Basic
+                - Silver
+                - Gold
+                - Platinum
+      - name: total_offers_received
+        description: Total number of offers received by customer.
+        data_type: int64
+        tests:
+          - not_null
+      - name: total_offers_viewed
+        description: Total number of offers viewed by customer.
+        data_type: int64
+        tests:
+          - not_null
+      - name: total_offers_completed
+        description: Total number of offers completed by customer.
+        data_type: int64
+        tests:
+          - not_null
+      - name: total_transactions
+        description: Total number of transactions by customer.
+        data_type: int64
+        tests:
+          - not_null
+
+  - name: rep_promos_transactions
+    config:
+      contract:
+        enforced: true
+    description: >
+      Rep table about the promos transactions through the promotional offers program.
+    columns:
+      - name: promo_channel
+        description: A list of channels through which the offer was received.
+        data_type: string
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - email
+                - mobile
+                - social
+                - web
+      - name: promo_type
+        description: Type of promotion.
+        data_type: string
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - bogo
+                - discount
+                - informational
+      - name: promo_difficulty_rank
+        description: Minimum spending required to complete an offer by promo channel and promo type.
+        data_type: int64
+        tests:
+          - not_null
+      - name: promo_duration
+        description: Time in minutes for the offer to be open by promo channel and promo type.
+        data_type: int64
+        tests:
+          - not_null
+      - name: promo_reward
+        description: Reward given upon completion of the offer by promo channel and promo type.
+        data_type: int64
+        tests:
+          - not_null
+      - name: hours_since_start
+        description: Time in hours since the offer was received.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: days_since_start
+        description: Time in days since the offer was received.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: total_promos_received
+        description: Total number of transaction promos received by promo channel and promo type.
+        data_type: int64
+        tests:
+          - not_null
+      - name: total_promos_viewed
+        description: Total number of transaction promos viewed by promo channel and promo type.
+        data_type: int64
+        tests:
+          - not_null
+      - name: response_rate
+        description: total_promos_viewed/total_promos_received.
+        data_type: float64
+        tests:
+          - not_null
