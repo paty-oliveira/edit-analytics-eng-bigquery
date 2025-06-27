@@ -129,3 +129,63 @@ macros:
       - name: alias
         type: string
         description: The alias to use for the resulting column in the SQL output.
+  - name: customer_segment
+    description: |
+      Classifies the customer based on the type of events performed.
+      Returns:
+        - 'Organic Driven' if only organic events.
+        - 'Promo Driven' if only promotion events.
+        - 'Mixed' if both.
+        - 'Inactive' if no events.
+    arguments:
+      - name: organic_events
+        type: integer
+        description: Name of the column with the count of organic events.
+      - name: promo_events
+        type: integer
+        description: Name of the column with the count of promotion events.
+      - name: column_name
+        type: string
+        description: Name of the output column.
+  - name: activity_segment
+    description: |
+      Segments the customer based on the number of promo transactions.
+      Returns:
+        - 'Never Purchased', 'Minimal Activity', 'Low Activity', 'Medium Activity', 'High Activity'
+    arguments:
+      - name: promos_transaction
+        type: integer
+        description: Name of the column with the count of promo transactions.
+      - name: column_name
+        type: string
+        description: Name of the output column.
+  - name: engagement_segment
+    description: |
+      Segments customer engagement based on the number of unique transaction sessions.
+      Returns:
+        - 'Highly Engaged', 'Moderately Engaged', 'Lightly Engaged', 'Minimally Engaged', 'Not Engaged'
+    arguments:
+      - name: unique_transaction_sessions
+        type: integer
+        description: Name of the column with the count of unique transaction sessions.
+      - name: column_name
+        type: string
+        description: Name of the output column.
+  - name: promo_responsiveness_segment
+    description: |
+      Segments customers according to the completion rate of received promos:
+        - 'Highly Responsive' (>= 70%)
+        - 'Moderately Responsive' (>= 40%)
+        - 'Low Responsive' (>= 10%)
+        - 'Non-Responsive' (< 10%)
+        - 'No Promos Received' (received = 0)
+    arguments:
+      - name: promos_received
+        type: integer
+        description: Name of the column with the count of promos received.
+      - name: completion_received_rate
+        type: float64
+        description: Name of the column with the completion rate of received promos.
+      - name: column_name
+        type: string
+        description: Name of the output column.
