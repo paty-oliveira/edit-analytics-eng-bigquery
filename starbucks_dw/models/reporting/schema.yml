@@ -261,6 +261,21 @@ models:
         data_type: integer
         data_tests:
           - not_null
+      - name: promo_duration
+        description: Time in minutes for the offer to be open.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: total_events
+        description: Total number of recorded events for the promotion.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: unique_promos
+        description: Number of unique promotions analyzed.
+        data_type: integer
+        data_tests:
+          - not_null
       - name: promos_received
         description: Number of times the promotion was received in this group.
         data_type: integer
@@ -281,21 +296,53 @@ models:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
               max_value: 100
-      - name: promo_duration
-        description: Time in minutes for the offer to be open.
-        data_type: integer
+      - name: avg_difficulty_rank
+        description: Average difficulty rank of the promotions.
+        data_type: float64
         data_tests:
           - not_null
-      - name: hours_since_start
-        description: Time in hours since the offer was received.
-        data_type: integer
+      - name: avg_duration
+        description: Average duration of the promotions.
+        data_type: float64
         data_tests:
           - not_null
-      - name: days_since_start
-        description: Time in days since the offer was received.
-        data_type: integer
+      - name: avg_reward
+        description: Average reward of the promotions.
+        data_type: float64
         data_tests:
           - not_null
+      - name: avg_hours_since_start
+        description: Average hours since the promotion started.
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: avg_days_since_start
+        description: Average days since the promotion started.
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: channel_efficiency_tier
+        description: Efficiency tier for the channel (Highly Efficient, Moderately Efficient, Low Efficiency, Inefficient).
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Highly Efficient
+                - Moderately Efficient
+                - Low Efficiency
+                - Inefficient
+      - name: promo_type_optimization
+        description: Indicates if the promotion type is optimized for the channel.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - BOGO Optimized
+                - Discount Optimized
+                - Info Optimized
+                - Standard
       - name: ingested_at
         description: Timestamp when the data was ingested.
         data_type: timestamp

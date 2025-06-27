@@ -189,3 +189,33 @@ macros:
       - name: column_name
         type: string
         description: Name of the output column.
+  - name: avg_metric
+    description: Returns a SQL expression for the average of a numeric column, rounded to two decimal places, and assigns it a custom alias.
+    arguments:
+      - name: column_name
+        description: Name of the column to average.
+      - name: alias
+        description: Alias to be assigned to the resulting column.
+  - name: channel_efficiency_tier
+    description: |
+      Produces a SQL CASE statement that classifies channels into efficiency tiers based on their view rate.
+      The efficiency tiers are: 'Highly Efficient', 'Moderately Efficient', 'Low Efficiency', or 'Inefficient'.
+    arguments:
+      - name: view_rate
+        description: Name of the view rate column to evaluate.
+      - name: column_name
+        description: Alias to be assigned to the resulting column.
+  - name: promo_type_optimization
+    description: |
+      Generates a SQL CASE statement that classifies promotion types as "Optimized" or "Standard" depending on the promotion type and a minimum view rate threshold.
+      - 'BOGO Optimized' for BOGO promotions with view rate >= 30
+      - 'Discount Optimized' for discount promotions with view rate >= 35
+      - 'Info Optimized' for informational promotions with view rate >= 50
+      - 'Standard' otherwise
+    arguments:
+      - name: promo_type
+        description: Name of the promo type column to evaluate.
+      - name: view_rate
+        description: Name of the view rate column to evaluate.
+      - name: column_name
+        description: Alias to be assigned to the resulting column.
