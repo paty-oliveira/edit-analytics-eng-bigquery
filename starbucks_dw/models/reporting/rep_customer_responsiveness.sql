@@ -15,7 +15,7 @@ with info_customer as (
     select
         customer_id,
         count(*) as total_events,
-        count(distinct transaction_id) as unique_transaction_sessions,
+        count(distinct promo_id) as unique_promos,
         countif(promo_id is null) as organic_events,
         countif(promo_id is not null) as promo_events,
         {{ countif_status('transaction_status', 'received', 'promos_received') }},
@@ -27,20 +27,19 @@ with info_customer as (
 )
 , enhanced_customer_segment as (
     select
-        ic.customer_id,
-        cb.total_events,
-        cb.unique_transaction_sessions,
-        cb.organic_events,
-        cb.promo_events,
-        cb.promos_received,
-        cb.promos_viewed,
-        cb.promos_completed,
-        cb.promos_transaction,
+        customer_id,
+        total_events,
+        unique_promos,
+        organic_events,
+        promo_events,
+        promos_received,
+        promos_viewed,
+        promos_completed,
+        promos_transaction,
         {{ customer_segment('organic_events', 'promo_events', 'promo_behavior_segment') }},
         {{ activity_segment('promos_transaction', 'activity_segment') }},
-        {{ engagement_segment('unique_transaction_sessions', 'engagement_segment') }}
-    from info_customer ic
-        left join customer_behavior cb on ic.customer_id = cb.customer_id
+        {{ engagement_segment('total_events', 'engagement_segment') }}
+    from customer_behavior
 )
 , customer_rates as (
     select
@@ -67,7 +66,7 @@ with info_customer as (
         ic.subscribed_day,
         ic.subscribed_dayofweek,
         ecs.total_events,
-        ecs.unique_transaction_sessions,
+        ecs.unique_promos,
         ecs.organic_events,
         ecs.promo_events,
         ecs.promos_received,

@@ -83,8 +83,8 @@ models:
         data_type: integer
         data_tests:
           - not_null
-      - name: unique_transaction_sessions
-        description: Number of unique transaction sessions by the customer.
+      - name: unique_promos
+        description: Number of unique promotions recorded the customer.
         data_type: integer
         data_tests:
           - not_null
@@ -186,7 +186,7 @@ models:
                 - High Activity
       - name: engagement_segment
         description: |
-          Segment representing customer engagement based on unique transaction sessions:
+          Segment representing customer engagement based on total events:
           - 'Not Engaged', 'Minimally Engaged', 'Lightly Engaged', 'Moderately Engaged', 'Highly Engaged'
         data_type: string
         data_tests:

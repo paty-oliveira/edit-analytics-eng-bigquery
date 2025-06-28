@@ -161,13 +161,13 @@ macros:
         description: Name of the output column.
   - name: engagement_segment
     description: |
-      Segments customer engagement based on the number of unique transaction sessions.
+      Segments customer engagement based on the number of total transactions.
       Returns:
         - 'Highly Engaged', 'Moderately Engaged', 'Lightly Engaged', 'Minimally Engaged', 'Not Engaged'
     arguments:
-      - name: unique_transaction_sessions
+      - name: total_events
         type: integer
-        description: Name of the column with the count of unique transaction sessions.
+        description: Name of the column with the count of total transactions.
       - name: column_name
         type: string
         description: Name of the output column.
