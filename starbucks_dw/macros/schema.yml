@@ -7,9 +7,44 @@ macros:
       - name: hours
         description: Number of hours.
         type: integer
+
   - name: format_transaction_type
     description: Macro to make more modular code from fct tables in mart models
     arguments:
       - name: transaction_type
         description: Transaction type.
         type: string
+
+  - name: age_section
+    description: Returns an age bucket/section for a given age value.
+    arguments:
+      - name: age_col
+        description: Column reference to the customer's age.
+        type: integer
+
+  - name: income_segment
+    description: Categorizes income into 'low', 'medium', or 'high' segments.
+    arguments:
+      - name: income_col
+        description: Column reference to the customer's income.
+        type: numeric
+
+  - name: responsiveness_segment
+    description: Classifies responsiveness percentage into 'low', 'medium', or 'high'.
+    arguments:
+      - name: pct_response_col
+        description: Column containing the percentage of promo responses.
+        type: numeric
+
+  - name: customer_response_base
+    description: Returns common customer response metrics, promo transactions, total transactions, and response rate.
+    arguments:
+      - name: table_alias
+        description: Table alias used for referencing columns.
+        type: string
+      - name: promo_col
+        description: Column name for the promotion ID. Default is 'promo_id'.
+        type: string (optional)
+      - name: transaction_col
+        description: Column name for the transaction ID. Default is 'transaction_id'.
+        type: string (optional)

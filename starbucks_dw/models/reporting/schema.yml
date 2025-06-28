@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: reporting__customer_promo_response_base
+  - name: reporting__customer_promo_response
     description: >
       Customer-level reporting base that calculates the promotion response rate.
       Useful for segmentation by demographic profile and promotional behavior analysis.
@@ -28,6 +28,16 @@ models:
           - not_null
           - accepted_values:
               values: ['M', 'F', 'O']
+      - name: subscribed_date
+        description: Date the customer subscribed or became active.
+        tests:
+          - not_null
+      - name: days_since_subscription
+        description: Days elapsed since the customer subscribed.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
       - name: promo_trans_count
         description: Number of transactions with promotion made by the customer.
         tests:
@@ -43,51 +53,24 @@ models:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0.0
               max_value: 1.0
-
-  - name: reporting_promo_response_summary
-    description: >
-      Aggregated metrics of promotion response by demographic group (income, gender, age).
-      Enables analysis of promotional behavior patterns across customer segments.
-    columns:
-      - name: income
-        description: Income bracket assigned to the customer.
-        tests:
-          - not_null
-      - name: gender
-        description: Gender of the customer.
+      - name: age_section
+        description: Age bucket to segment the customer (e.g., 18–24, 25–34).
         tests:
           - not_null
           - accepted_values:
-              values: ['M', 'F', 'O']
-      - name: age
-        description: Age of the customer.
+              values: ['<18', '18-24', '25-34', '35-44', '45-54', '55-64', '65+', 'unknown']
+      - name: income_segment
+        description: Categorization of income as low, medium, or high.
         tests:
           - not_null
-          - dbt_expectations.expect_column_values_to_be_between:
-              min_value: 10
-              max_value: 150
-      - name: total_customers
-        description: Total number of customers in the demographic group.
+          - accepted_values:
+              values: ['low', 'medium', 'high']
+      - name: responsiveness_segment
+        description: Level of responsiveness to promotions - low, medium, or high.
         tests:
           - not_null
-      - name: responded_customers
-        description: Number of customers who responded to at least one promotion.
-        tests:
-          - not_null
-      - name: avg_response_rate
-        description: Average response rate to promotions within the group.
-        tests:
-          - not_null
-          - dbt_expectations.expect_column_values_to_be_between:
-              min_value: 0.0
-              max_value: 1.0
-      - name: pct_customers_responded
-        description: Percentage of customers who responded to at least one promotion in the group.
-        tests:
-          - not_null
-          - dbt_expectations.expect_column_values_to_be_between:
-              min_value: 0.0
-              max_value: 1.0
+          - accepted_values:
+              values: ['low', 'medium', 'high']
 
   - name: reporting_promo_channel_effectiveness
     description: >
