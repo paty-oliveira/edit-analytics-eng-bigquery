@@ -44,7 +44,7 @@ models:
               min_value: 0.0
               max_value: 1.0
 
-  - name: reporting_customer_promo_response_summary
+  - name: reporting_promo_response_summary
     description: >
       Aggregated metrics of promotion response by demographic group (income, gender, age).
       Enables analysis of promotional behavior patterns across customer segments.
@@ -89,12 +89,11 @@ models:
               min_value: 0.0
               max_value: 1.0
 
-  - name: promo_channel_effectiveness
+  - name: reporting_promo_channel_effectiveness
     description: >
       Aggregates marketing promotion performance metrics by communication channel
       and promotion type. Helps assess the effectiveness of email, mobile, social,
       and web channels in engaging customers with different types of promotions.
-
     columns:
       - name: channel
         description: Channel through which the promotion was delivered (e.g., email, mobile, social, web).
@@ -102,29 +101,24 @@ models:
           - not_null
           - accepted_values:
               values: ['email', 'mobile', 'social', 'web']
-
       - name: promo_type
         description: Type of promotion offered to the customer (e.g., bogo, discount, informational).
         tests:
           - not_null
           - accepted_values:
               values: ['bogo', 'discount', 'informational']
-
       - name: customers_responded
         description: Number of unique customers who responded to a promotion in the given channel and promo type.
         tests:
           - not_null
-
       - name: total_promos
         description: Number of unique promotions delivered in the given channel and promo type.
         tests:
           - not_null
-
       - name: avg_difficulty_rank
         description: Average difficulty rank (effort needed to complete promotion) for that channel and promo type.
         tests:
           - not_null
-
       - name: avg_reward
         description: Average reward (in monetary or point value) offered in that channel and promo type.
         tests:

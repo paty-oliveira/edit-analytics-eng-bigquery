@@ -24,7 +24,7 @@ SELECT
     dc.income,
     dc.age,
     dc.gender,
-    {{ format_promo_metrics('fct') }}
+    {{ customer_response_base('fct') }}
 FROM {{ ref('fct_customers_transactions') }} AS fct
 JOIN {{ ref('dim_customer') }} AS dc
   ON fct.customer_id = dc.customer_id
