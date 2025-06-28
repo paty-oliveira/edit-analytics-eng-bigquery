@@ -1,15 +1,26 @@
-with info_promo_transaction as (
+with info_promo as (
     select
       promo_id,
-      promo_channel,
+      channel,
       promo_type,
+      difficulty_rank,
+      duration,
+      reward
+    from {{ ref('dim_promo') }}
+)
+, info_promo_transaction as (
+    select
+      ip.promo_id,
+      promo_channel,
+      ip.promo_type,
       promo_difficulty_rank,
       promo_duration,
       promo_reward,
       transaction_status,
       hours_since_start,
       days_since_start
-    from {{ ref('fct_promos_transactions') }}
+    from info_promo ip
+      inner join {{ ref('fct_promos_transactions') }} fpt on ip.promo_id = fpt.promo_id
 )
 , promo_behaviour as (
     select
