@@ -107,6 +107,33 @@ models:
           - not_null
           - accepted_values:
               values: ['bogo', 'discount', 'informational']
+      - name: promos_received
+        description: Number of promotions marked as 'received' by customers in this channel and type.
+        tests:
+          - not_null
+      - name: promos_viewed
+        description: Number of promotions marked as 'viewed' by customers in this channel and type.
+        tests:
+          - not_null
+      - name: total_transactions
+        description: Total number of promo-related transactions for this channel and type.
+        tests:
+          - not_null
+      - name: view_rate
+        description: Ratio of viewed to received promotions (as a decimal) — proxy for engagement effectiveness.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+      - name: avg_hours_until_action
+        description: Average number of hours between receiving a promotion and interacting with it.
+        tests:
+          - not_null
+      - name: avg_days_until_action
+        description: Average number of days between receiving a promotion and interacting with it.
+        tests:
+          - not_null
       - name: customers_responded
         description: Number of unique customers who responded to a promotion in the given channel and promo type.
         tests:
@@ -119,7 +146,13 @@ models:
         description: Average difficulty rank (effort needed to complete promotion) for that channel and promo type.
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
       - name: avg_reward
         description: Average reward (in monetary or point value) offered in that channel and promo type.
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100

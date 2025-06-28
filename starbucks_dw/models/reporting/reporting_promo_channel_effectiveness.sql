@@ -6,10 +6,13 @@ with promo_engagement as (
   select
     pt.transaction_id,
     pt.transaction_status,
+    pt.hours_since_start,
+    pt.days_since_start,
     p.channel,
     p.promo_type
   from {{ ref('fct_promos_transactions') }} pt
-  join {{ ref('dim_promo') }} p on pt.promo_id = p.promo_id
+  join {{ ref('dim_promo') }} p
+    on pt.promo_id = p.promo_id
 ),
 
 engagement_agg as (
@@ -40,8 +43,8 @@ response_agg as (
     promo_type,
     count(distinct customer_id) as customers_responded,
     count(distinct promo_id) as total_promos,
-    avg(difficulty_rank) as avg_difficulty_rank,
-    avg(reward) as avg_reward
+    ROUND(COALESCE(avg(difficulty_rank), 0), 2) as avg_difficulty_rank,
+    ROUND(COALESCE(avg(reward), 0), 2) as avg_reward
   from customer_response
   group by channel, promo_type
 )
@@ -53,6 +56,8 @@ select
   e.promos_viewed,
   e.total_transactions,
   e.view_rate,
+  e.avg_hours_since_start as avg_hours_until_action,
+  e.avg_days_since_start as avg_days_until_action,
   r.customers_responded,
   r.total_promos,
   r.avg_difficulty_rank,
