@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: rpt_customer_segmentation
+    description: "Analisa a taxa de resposta dos clientes segmentados por dados demográficos."
+    columns:
+      - name: customer_id
+        description: "Identificador único do cliente."
+        tests:
+          - unique
+          - not_null
+      - name: response_rate
+        description: "Taxa de resposta às promoções."
+        tests:
+          - not_null
+
+  - name: rpt_channel_effectiveness
+    description: "Compara canais de comunicação quanto à efetividade em promoções."
+    columns:
+      - name: channel
+        description: "Canal usado na promoção (email, mobile, etc)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['email', 'mobile', 'social', 'web']
+      - name: response_rate
+        description: "Taxa de conversão (respostas por promoção enviada)."
+        tests:
+          - not_null

@@ -2,11 +2,12 @@ version: 2
 
 macros:
   - name: get_days_from_hours
-    description: Convert hours to days.
+    description: Converts hours to days.
     arguments:
       - name: hours
         description: Number of hours.
         type: integer
+
   - name: format_transaction_status
     description: |
       Maps transaction type strings to status labels:
@@ -18,3 +19,27 @@ macros:
     arguments:
       - name: transaction_type_column
         description: The column containing the transaction type string
+
+  - name: calc_response_rate
+    description: |
+      Safely divides two values (numerator and denominator),
+      ensuring the result is never NULL or causes division-by-zero errors.
+      Uses BigQuery's SAFE_DIVIDE function.
+    arguments:
+      - name: numerator
+        description: Expression or value representing the numerator.
+      - name: denominator
+        description: Expression or value representing the denominator.
+
+  - name: age_group_case
+    description: |
+      Dynamically categorizes an age column into user-defined buckets.
+      You must pass a column and a list of tuples representing ranges and labels.
+    arguments:
+      - name: age_column
+        description: The column or expression representing age (e.g., 'c.age').
+      - name: age_buckets
+        description: |
+          A list of tuples, each tuple containing:
+          (lower_bound, upper_bound, label)
+          Example: [(18, 24, '18-24'), (25, 34, '25-34'), ...]
