@@ -33,7 +33,8 @@ end as income_segment,
 cts.total_offers_received,
 cts.total_offers_viewed,
 cts.total_offers_completed,
-cts.total_transactions
+cts.total_transactions,
+{{calculate_rate('total_offers_completed','total_offers_received') }} as response_rate
 FROM {{ ref("fct_customers_transactions") }} fct
 inner JOIN customer_transaction_status cts on cts.customer_id = fct.customer_id
 group by fct.customer_id, gender, age, income, customer_subscribed_date, cts.total_offers_received, cts.total_offers_viewed, cts.total_offers_completed, cts.total_transactions

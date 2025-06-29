@@ -94,6 +94,11 @@ models:
         data_type: int64
         tests:
           - not_null
+      - name: response_rate
+        description: total_offers_received/total_offers_completed.
+        data_type: float64
+        tests:
+          - not_null
 
   - name: rep_promos_transactions
     config:
