@@ -1,4 +1,4 @@
-{% macro age_section(age_col) %}
+{% macro age_segment(age_col) %}
 CASE
     WHEN {{ age_col }} IS NULL THEN 'unknown'
     WHEN {{ age_col }} < 18 THEN '<18'

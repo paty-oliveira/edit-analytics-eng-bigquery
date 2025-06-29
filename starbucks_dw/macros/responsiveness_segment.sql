@@ -1,7 +1,8 @@
-{% macro responsiveness_segment(pct_response_col) %}
-CASE
-    WHEN {{ pct_response_col }} < 0.3 THEN 'low'
-    WHEN {{ pct_response_col }} BETWEEN 0.3 AND 0.7 THEN 'medium'
-    ELSE 'high'
-END
+{% macro responsiveness_segment(view_rate_col) %}
+  case
+    when {{ view_rate_col }} >= 0.8 then 'Highly Responsive'
+    when {{ view_rate_col }} >= 0.5 then 'Moderately Responsive'
+    when {{ view_rate_col }} >= 0.2 then 'Selective'
+    else 'Unresponsive'
+  end
 {% endmacro %}

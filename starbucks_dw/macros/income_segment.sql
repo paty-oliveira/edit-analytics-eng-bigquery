@@ -1,7 +1,8 @@
-{% macro income_segment(income_col) %}
-CASE
-    WHEN {{ income_col }} < 40000 THEN 'low'
-    WHEN {{ income_col }} BETWEEN 40000 AND 70000 THEN 'medium'
-    ELSE 'high'
-END
+{% macro income_segment(income_column) %}
+  case
+    when {{ income_column }} < 50000 then 'Low Income'
+    when {{ income_column }} between 50000 and 100000 then 'Middle Income'
+    when {{ income_column }} > 100000 then 'High Income'
+    else 'Unknown Income'
+  end
 {% endmacro %}
