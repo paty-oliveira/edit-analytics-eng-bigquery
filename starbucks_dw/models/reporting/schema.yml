@@ -1,0 +1,141 @@
+version: 2
+
+models:
+  - name: reporting__customer_promo_response
+    description: >
+      Customer-level reporting base that calculates the promotion response rate.
+      Useful for segmentation by demographic profile and promotional behavior analysis.
+    columns:
+      - name: customer_id
+        description: Unique identifier of the customer.
+        tests:
+          - not_null
+          - unique
+      - name: income
+        description: Income bracket assigned to the customer.
+        tests:
+          - not_null
+      - name: age
+        description: Age of the customer.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 10
+              max_value: 150
+      - name: gender
+        description: Customer gender.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['M', 'F', 'O']
+      - name: subscribed_date
+        description: Date the customer subscribed or became active.
+        tests:
+          - not_null
+      - name: days_since_subscription
+        description: Days elapsed since the customer subscribed.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+      - name: promo_trans_count
+        description: Number of transactions with promotion made by the customer.
+        tests:
+          - not_null
+      - name: total_trans_count
+        description: Total transactions (with and without promotion) made by the customer.
+        tests:
+          - not_null
+      - name: pct_promo_response
+        description: Percentage of transactions with promotion (promo_trans_count / total_trans_count).
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0.0
+              max_value: 1.0
+      - name: age_section
+        description: Age bucket to segment the customer (e.g., 18–24, 25–34).
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['<18', '18-24', '25-34', '35-44', '45-54', '55-64', '65+', 'unknown']
+      - name: income_segment
+        description: Categorization of income as low, medium, or high.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['low', 'medium', 'high']
+      - name: responsiveness_segment
+        description: Level of responsiveness to promotions - low, medium, or high.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['low', 'medium', 'high']
+
+  - name: reporting_promo_channel_effectiveness
+    description: >
+      Aggregates marketing promotion performance metrics by communication channel
+      and promotion type. Helps assess the effectiveness of email, mobile, social,
+      and web channels in engaging customers with different types of promotions.
+    columns:
+      - name: channel
+        description: Channel through which the promotion was delivered (e.g., email, mobile, social, web).
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['email', 'mobile', 'social', 'web']
+      - name: promo_type
+        description: Type of promotion offered to the customer (e.g., bogo, discount, informational).
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['bogo', 'discount', 'informational']
+      - name: promos_received
+        description: Number of promotions marked as 'received' by customers in this channel and type.
+        tests:
+          - not_null
+      - name: promos_viewed
+        description: Number of promotions marked as 'viewed' by customers in this channel and type.
+        tests:
+          - not_null
+      - name: total_transactions
+        description: Total number of promo-related transactions for this channel and type.
+        tests:
+          - not_null
+      - name: view_rate
+        description: Ratio of viewed to received promotions (as a decimal) — proxy for engagement effectiveness.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+      - name: avg_hours_until_action
+        description: Average number of hours between receiving a promotion and interacting with it.
+        tests:
+          - not_null
+      - name: avg_days_until_action
+        description: Average number of days between receiving a promotion and interacting with it.
+        tests:
+          - not_null
+      - name: customers_responded
+        description: Number of unique customers who responded to a promotion in the given channel and promo type.
+        tests:
+          - not_null
+      - name: total_promos
+        description: Number of unique promotions delivered in the given channel and promo type.
+        tests:
+          - not_null
+      - name: avg_difficulty_rank
+        description: Average difficulty rank (effort needed to complete promotion) for that channel and promo type.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+      - name: avg_reward
+        description: Average reward (in monetary or point value) offered in that channel and promo type.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100

@@ -7,3 +7,110 @@ macros:
       - name: hours
         description: Number of hours.
         type: integer
+
+  - name: format_transaction_type
+    description: Macro to make more modular code from fct tables in mart models.
+    arguments:
+      - name: transaction_type
+        description: Transaction type.
+        type: string
+
+  - name: age_segment
+    description: Returns an age bucket/section for a given age value.
+    arguments:
+      - name: age_col
+        description: Column reference to the customer's age.
+        type: integer
+
+  - name: income_segment
+    description: Categorizes income into 'low', 'medium', or 'high' segments.
+    arguments:
+      - name: income_col
+        description: Column reference to the customer's income.
+        type: numeric
+
+  - name: responsiveness_segment
+    description: Classifies responsiveness percentage into 'low', 'medium', or 'high'.
+    arguments:
+      - name: pct_response_col
+        description: Column containing the percentage of promo responses.
+        type: numeric
+
+  - name: engagement_segment
+    description: Classifies engagement level based on completion rate and offers received.
+    arguments:
+      - name: completion_rate_col
+        description: Column containing the completion rate.
+        type: numeric
+      - name: total_offers_received_col
+        description: Column containing total offers received.
+        type: integer
+
+  - name: count_distinct_cond
+    description: Generic macro to perform COUNT(DISTINCT ...) with optional filtering.
+    arguments:
+      - name: table_alias
+        description: Table alias for referencing columns.
+        type: string
+      - name: column
+        description: Column to apply COUNT(DISTINCT) on.
+        type: string
+      - name: filter_column
+        description: Filter column (optional, not enforced by schema).
+        type: string
+      - name: filter_value
+        description: Filter value (optional, not enforced by schema).
+        type: string
+
+  - name: ratio
+    description: Generic macro to calculate ratio of distinct counts with optional filters.
+    arguments:
+      - name: table_alias
+        description: Table alias for referencing columns.
+        type: string
+      - name: numerator_column
+        description: Column for numerator count distinct.
+        type: string
+      - name: numerator_filter_column
+        description: Filter column for numerator (optional).
+        type: string
+      - name: numerator_filter_value
+        description: Filter value for numerator (optional).
+        type: string
+      - name: denominator_column
+        description: Column for denominator count distinct.
+        type: string
+      - name: denominator_filter_column
+        description: Filter column for denominator (optional).
+        type: string
+      - name: denominator_filter_value
+        description: Filter value for denominator (optional).
+        type: string
+
+  - name: promo_metrics
+    description: >
+      Calculates promotion-related metrics including counts of promotions received, viewed,
+      total transactions, view rate, and average times since promotion start.
+    arguments:
+      - name: table_alias
+        description: Table alias for referencing columns.
+        type: string
+      - name: status_received
+        description: Transaction status value representing 'received' promotions.
+        type: string
+      - name: status_viewed
+        description: Transaction status value representing 'viewed' promotions.
+        type: string
+      - name: transaction_id
+        description: Column name for transaction ID.
+        type: string
+      - name: transaction_status
+        description: Column name for transaction status.
+        type: string
+  - name: subscription_age_segment
+    description: >
+      Categorizes subscription age (days since subscription) into buckets such as '0-3 months', '3-12 months', '1-2 years', and '2+ years'.
+    arguments:
+      - name: days_since_sub_column
+        description: Column reference for days since subscription.
+        type: integer
