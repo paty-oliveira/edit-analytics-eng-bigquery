@@ -14,3 +14,13 @@ macros:
       - name: transaction_type
         description: Transaction status.
         type: string
+
+  - name: calculate_rate
+    description: Calculate a rate in percentage.
+    arguments:
+      - name: numerator
+        description: Numerator field.
+        type: integer
+      - name: denominator
+        description: Denominator field.
+        type: integer

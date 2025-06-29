@@ -13,7 +13,8 @@ sum(promo_reward) as promo_reward, sum(hours_since_start) as hours_since_start,
 sum(days_since_start) as days_since_start,
 total_promos_received,
 total_promos_viewed,
-round((total_promos_viewed/total_promos_received)*100,2) as response_rate
+{{calculate_rate('total_promos_viewed','total_promos_received') }} as response_rate
+--round((total_promos_viewed/total_promos_received)*100,2) as response_rate
 FROM {{ ref("fct_promos_transactions") }} fpt
 LEFT JOIN transaction_status ts ON ts.promo_channel = fpt.promo_channel AND ts.promo_type = fpt.promo_type
 GROUP BY promo_channel, promo_type, total_promos_received, total_promos_viewed
