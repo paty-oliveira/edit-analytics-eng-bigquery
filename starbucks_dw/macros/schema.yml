@@ -7,3 +7,20 @@ macros:
       - name: hours
         description: Number of hours.
         type: integer
+
+  - name: format_transaction_type
+    description: Format transaction status.
+    arguments:
+      - name: transaction_type
+        description: Transaction status.
+        type: string
+
+  - name: calculate_rate
+    description: Calculate a rate in percentage.
+    arguments:
+      - name: numerator
+        description: Numerator field.
+        type: integer
+      - name: denominator
+        description: Denominator field.
+        type: integer
