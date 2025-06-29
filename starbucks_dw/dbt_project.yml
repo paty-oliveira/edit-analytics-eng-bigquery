@@ -14,11 +14,13 @@ clean-targets:
   - "dbt_packages"
 
 vars:
-  schema_prefix: "{{ env_var('SCHEMA_PREFIX', '') }}"
+  schema_prefix: "daniel"
 
 models:
   starbucks_dw:
     staging:
       +materialized: view
     marts:
+      +materialized: table
+    reports:
       +materialized: table

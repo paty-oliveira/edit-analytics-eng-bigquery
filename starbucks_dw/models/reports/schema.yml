@@ -1,0 +1,279 @@
+version: 2
+
+models:
+  - name: report_customer_segments
+    description: >
+      A comprehensive customer segmentation report that combines demographic information 
+      with behavioral analytics to create actionable customer segments. This model analyzes 
+      customer engagement patterns, responsiveness to offers, and transaction behaviors to 
+      classify customers into meaningful segments for targeted marketing and business strategy.
+      
+      The model integrates customer demographics (age, income, gender) with transaction 
+      metrics to create multi-dimensional segmentation including engagement levels, 
+      responsiveness patterns, and customer value tiers.
+
+    columns:
+      - name: customer_id
+        description: Unique identifier for each customer
+        tests:
+          - unique
+          - not_null
+
+      - name: gender
+        description: Customer's gender classification
+        
+      - name: age
+        description: Customer's age in years
+        tests:
+          - not_null
+
+      - name: income
+        description: Customer's annual income amount
+        
+      - name: subscribed_date
+        description: Date when the customer first subscribed or joined
+        tests:
+          - not_null
+
+      - name: days_since_subscription
+        description: Number of days elapsed since the customer's subscription date
+        tests:
+          - not_null
+
+      - name: age_segment
+        description: >
+          Age-based demographic segment categorizing customers into generational cohorts:
+          Gen Z (under 25), Millennial (25-39), Gen X (40-55), Boomer (56+)
+
+      - name: income_segment
+        description: >
+          Income-based demographic segment categorizing customers by earning capacity:
+          Low Income (under $50K), Middle Income ($50K-$99K), High Income ($100K+), 
+          Unknown Income (missing data)
+
+      - name: engagement_segment
+        description: >
+          Behavioral segment based on offer completion patterns and engagement frequency:
+          - High Performer: 70%+ completion rate with 5+ offers received
+          - Engaged: 40%+ completion rate with 3+ offers received  
+          - Moderate: 10%+ completion rate with 2+ offers received
+          - Low Engagement: <10% completion rate but received offers
+          - No Engagement: No meaningful engagement activity
+
+      - name: responsiveness_segment
+        description: >
+          Behavioral segment based on offer viewing patterns and response rates:
+          - Highly Responsive: 80%+ view rate
+          - Moderately Responsive: 50-79% view rate
+          - Selective: 20-49% view rate
+          - Unresponsive: <20% view rate
+
+      - name: total_offers_received
+        description: Total count of promotional offers received by the customer
+        tests:
+          - not_null
+
+      - name: total_offers_viewed
+        description: Total count of promotional offers viewed by the customer
+        tests:
+          - not_null
+
+      - name: total_offers_completed
+        description: Total count of promotional offers completed by the customer
+        tests:
+          - not_null
+
+      - name: total_transactions
+        description: Total count of completed transactions by the customer
+        tests:
+          - not_null
+
+      - name: unique_promos_engaged
+        description: Count of unique promotional campaigns the customer has engaged with
+        tests:
+          - not_null
+
+      - name: view_rate
+        description: >
+          Percentage of received offers that were viewed by the customer 
+          (total_offers_viewed / total_offers_received), rounded to 4 decimal places
+        tests:
+          - not_null
+
+      - name: completion_rate
+        description: >
+          Percentage of received offers that were completed by the customer 
+          (total_offers_completed / total_offers_received), rounded to 4 decimal places
+        tests:
+          - not_null
+
+      - name: customer_tier
+        description: >
+          Overall customer value classification combining behavioral and demographic factors:
+          - High Value: 50%+ completion rate AND income >$75K
+          - Good Value: 30%+ completion rate AND 50%+ view rate
+          - Average Value: 10%+ completion rate AND 30%+ view rate
+          - Low Value: All other customers
+
+      - name: is_high_converter
+        description: Boolean flag indicating if customer has a completion rate of 50% or higher
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+              quote: false
+
+      - name: is_highly_responsive
+        description: Boolean flag indicating if customer has a view rate of 70% or higher
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+              quote: false
+
+      - name: is_high_value_prospect
+        description: >
+          Boolean flag identifying customers with high income (>$75K) and good engagement 
+          (30%+ completion rate), representing high-value prospects for premium offerings
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+              quote: false
+
+      - name: created_at
+        description: Timestamp when this record was created/last updated
+        tests:
+          - not_null
+  - name: report_channel_effectiveness
+    description: >
+      A comprehensive channel performance analysis report that evaluates the effectiveness
+      of different promotional channels and promotion types. This model provides insights
+      into channel performance across multiple dimensions including transaction volume,
+      conversion rates, reward efficiency, timing patterns, and overall effectiveness rankings.
+
+    columns:
+      - name: promo_channel
+        description: The promotional channel used to deliver the offer (e.g., email, mobile, web, social)
+        tests:
+          - not_null
+
+      - name: promo_type
+        description: The type or category of promotional offer (e.g., discount, BOGO, informational)
+        tests:
+          - not_null
+
+      - name: total_transactions
+        description: Total count of all promotional transaction records for this channel-type combination
+        tests:
+          - not_null
+
+      - name: unique_promos_offered
+        description: Count of distinct promotional campaigns offered through this channel-type combination
+        tests:
+          - not_null
+
+      - name: unique_transactions
+        description: Count of distinct transaction IDs processed through this channel-type combination
+        tests:
+          - not_null
+
+      - name: received_count
+        description: Number of promotional offers that were successfully received by customers
+        tests:
+          - not_null
+
+      - name: viewed_count
+        description: Number of promotional offers that were viewed by customers after being received
+        tests:
+          - not_null
+
+      - name: completed_count
+        description: Number of promotional offers that were completed by customers
+        tests:
+          - not_null
+
+      - name: transaction_count
+        description: Number of actual purchase transactions resulting from promotional offers
+        tests:
+          - not_null
+
+      - name: engagement_rate
+        description: >
+          Percentage of received offers that resulted in any form of customer engagement
+          (viewed, completed, or transacted), calculated as (viewed + completed + transaction) / received * 100,
+          rounded to 2 decimal places
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+
+      - name: avg_reward_offered
+        description: Average monetary reward value offered through this channel-type combination, rounded to 2 decimal places
+        tests:
+          - not_null
+
+      - name: total_rewards_offered
+        description: Total sum of all reward values offered through this channel-type combination
+        tests:
+          - not_null
+
+      - name: avg_difficulty_rank
+        description: >
+          Average difficulty ranking of promotions offered through this channel-type combination,
+          where lower numbers indicate easier promotions to complete, rounded to 1 decimal place
+        tests:
+          - not_null
+
+      - name: avg_promo_duration_minutes
+        description: >
+          Average time in minutes for the offer to be open for this channel-type combination,
+          rounded to 1 decimal place
+        tests:
+          - not_null
+
+      - name: avg_hours_to_action
+        description: >
+          Average time in hours from promotion start to customer action/engagement,
+          indicating channel responsiveness speed, rounded to 1 decimal place
+        tests:
+          - not_null
+
+      - name: avg_days_to_action
+        description: >
+          Average time in days from promotion start to customer action/engagement,
+          providing longer-term timing insights, rounded to 1 decimal place
+        tests:
+          - not_null
+
+      - name: reward_per_transaction
+        description: >
+          Average reward cost per successful transaction, calculated as total rewards offered
+          divided by transaction count. Lower values indicate better reward efficiency,
+          rounded to 2 decimal places
+        tests:
+          - not_null
+
+      - name: volume_rank
+        description: >
+          Ranking of this channel within its promotion type based on transaction volume,
+          where 1 = highest volume. Partitioned by promo_type for fair comparison
+        tests:
+          - not_null
+
+      - name: efficiency_rank
+        description: >
+          Ranking of this channel within its promotion type based on reward efficiency
+          (reward per transaction), where 1 = most efficient (lowest cost per transaction).
+          Partitioned by promo_type for fair comparison
+        tests:
+          - not_null
+
+      - name: speed_rank
+        description: >
+          Ranking of this channel within its promotion type based on response speed
+          (average hours to action), where 1 = fastest response time.
+          Partitioned by promo_type for fair comparison
+        tests:
+          - not_null
