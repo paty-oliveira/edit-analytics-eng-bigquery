@@ -1,17 +1,9 @@
-{{ config(enabled=false) }}
-
-select
-    1 as customer_id,
-    "F" as gender,
-    10 as age,
-    0 as income,
-    current_timestamp as subscribed_date,
-    current_timestamp as ingested_at
-union all
-select
-    2 as cutomer_id,
-    "F" as gender,
-    10 as age,
-    0 as income,
-    current_timestamp as subscribed_date,
-    current_timestamp as ingested_at
+SELECT
+id as customer_id,
+coalesce(gender, 'N/A') as gender,
+coalesce(income, 0) as income,
+age,
+parse_date('%Y%m%d', cast(became_member_on as string)) as subscribed_date,
+current_timestamp() as ingested_at
+FROM {{ source ('starbucks','customers')}}
+where age != 118

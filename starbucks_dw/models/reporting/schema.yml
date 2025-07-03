@@ -1,0 +1,350 @@
+version: 1
+
+models:
+  - name: rep_customer_responsiveness
+    config:
+      contract:
+        enforced: true
+    description: |
+      Reporting model that analyzes customer responsiveness to promotional offers based on demographic and behavioral segments.
+      Each row aggregates customer actions and behavior segments by gender, age, income, and customer segmentations such as promo behavior, age group, income group, and customer's subscription years group.
+      Includes counts of events, promo activity, engagement, and derived rates.
+      This model does not analyze individual promotion attributes, focusing instead on customer segments and their response metrics.
+    columns:
+      - name: customer_id
+        description: Unique identifier for each customer.
+        data_type: string
+        data_tests:
+          - not_null
+          - unique
+      - name: gender
+        description: Gender of the customer.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - M
+                - F
+                - O
+                - N/A
+      - name: age
+        description: Age of the customer.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: age_group
+        description: Age group assigned to the customer according to the age_group macro.
+        data_type: string
+        data_tests:
+          - not_null
+      - name: income
+        description: Income of the customer.
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: income_group
+        description: Income group assigned to the customer according to the income_group macro.
+        data_type: string
+        data_tests:
+          - not_null
+      - name: customer_subscribed_date
+        description: Date when the customer created an app account.
+        data_type: date
+        data_tests:
+          - not_null
+      - name: customer_subscription_years_group
+        description: Customer's subscription years group, as defined by the `subscription_years_group` macro.
+        data_type: string
+        data_tests:
+          - not_null
+      - name: subscribed_year
+        description: Year part extracted from the subscription date.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: subscribed_month
+        description: Month part extracted from the subscription date (1-12).
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: subscribed_day
+        description: Day of month extracted from the subscription date (1-31).
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: subscribed_dayofweek
+        description: Day of week extracted from the subscription date (1=Sunday, 7=Saturday in BigQuery).
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: total_events
+        description: Total number of events (transactions) recorded for the customer.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: unique_promos
+        description: Number of unique promotions recorded the customer.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: organic_events
+        description: Number of events not associated with a promotion.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: promo_events
+        description: Number of events associated with a promotion.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: promos_received
+        description: Number of promotions received by the customer.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: promos_viewed
+        description: Number of promotions viewed by the customer.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: promos_completed
+        description: Number of promotions completed by the customer.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: promos_transaction
+        description: Number of promotions where the customer performed a 'transaction'.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: view_rate
+        description: |
+          Percentage of received promotions that were viewed by the customer.
+          Calculated with the `response_rate` macro: viewed / received (0 if received is 0).
+        data_type: float64
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+      - name: completion_viewed_rate
+        description: |
+          Percentage of viewed promotions that were completed by the customer.
+          Calculated with the `response_rate` macro: completed / viewed (0 if viewed is 0).
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: completion_received_rate
+        description: |
+          Percentage of received promotions that were completed by the customer.
+          Calculated with the `response_rate` macro: completed / received (0 if received is 0).
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: conversion_rate
+        description: |
+          Percentage of transactions that were completed by the customer.
+          Calculated with the `response_rate` macro: completed / transaction (0 if transaction is 0).
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: promo_engagement_rate
+        description: Percentage of promo events out of total events (promo_events / total_events).
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: promo_behavior_segment
+        description: |
+          Segment assigned to the customer according to their promotional behavior:
+          - 'Organic Driven': Only transactions without promotion
+          - 'Promo Driven': Only transactions with promotion
+          - 'Mixed': Both transactions with and without promotion
+          - 'Inactive': No events
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Organic Driven
+                - Promo Driven
+                - Mixed
+                - Inactive
+      - name: activity_segment
+        description: |
+          Segment representing purchase activity level based on number of promo transactions:
+          - 'Never Purchased', 'Minimal Activity', 'Low Activity', 'Medium Activity', 'High Activity'
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Never Purchased
+                - Minimal Activity
+                - Low Activity
+                - Medium Activity
+                - High Activity
+      - name: engagement_segment
+        description: |
+          Segment representing customer engagement based on total events:
+          - 'Not Engaged', 'Minimally Engaged', 'Lightly Engaged', 'Moderately Engaged', 'Highly Engaged'
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Not Engaged
+                - Minimally Engaged
+                - Lightly Engaged
+                - Moderately Engaged
+                - Highly Engaged
+      - name: promo_responsiveness_segment
+        description: |
+          Segment representing customer responsiveness to promo offers based on completion_received_rate:
+            - 'Highly Responsive' (>=70%)
+            - 'Moderately Responsive' (>=40%)
+            - 'Low Responsive' (>=10%)
+            - 'Non-Responsive' (<10%)
+            - 'No Promos Received'
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Highly Responsive
+                - Moderately Responsive
+                - Low Responsive
+                - Non-Responsive
+                - No Promos Received
+      - name: ingested_at
+        description: Timestamp when the data was ingested.
+        data_type: timestamp
+        data_tests:
+          - not_null
+  - name: rep_channel_effectiveness
+    config:
+      contract:
+        enforced: true
+    description: |
+      Reporting model that analyzes the effectiveness of each communication channel and promotion type in driving responses to offers.
+      Each row aggregates the number of promotions received and viewed, calculates the view rate (in percentage, 0–100), average metrics and optimization, by channel, promotion type, difficulty, reward and duration.
+      This model supports business intelligence on channel performance and promotional strategies.
+    columns:
+      - name: promo_channel
+        description: Communication channel through which the offer was delivered (email, mobile, social, web).
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - email
+                - mobile
+                - social
+                - web
+      - name: promo_type
+        description: Type of promotion (bogo, discount, informational).
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - bogo
+                - discount
+                - informational
+      - name: promo_difficulty_rank
+        description: Minimum spending required to complete the offer.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: promo_reward
+        description: Reward given upon completion of the offer.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: promo_duration
+        description: Time in minutes for the offer to be open.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: total_events
+        description: Total number of recorded events for the promotion.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: unique_promos
+        description: Number of unique promotions analyzed.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: promos_received
+        description: Number of times the promotion was received in this group.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: promos_viewed
+        description: Number of times the promotion was viewed in this group.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: view_rate
+        description: |
+          Percentage of received promotions that were viewed (promos_viewed / promos_received, or 0 if promos_received = 0).
+          Calculated using the `response_rate` macro.
+        data_type: float64
+        data_tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+      - name: avg_difficulty_rank
+        description: Average difficulty rank of the promotions.
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: avg_duration
+        description: Average duration of the promotions.
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: avg_reward
+        description: Average reward of the promotions.
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: avg_hours_since_start
+        description: Average hours since the promotion started.
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: avg_days_since_start
+        description: Average days since the promotion started.
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: channel_efficiency_tier
+        description: Efficiency tier for the channel (Highly Efficient, Moderately Efficient, Low Efficiency, Inefficient).
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Highly Efficient
+                - Moderately Efficient
+                - Low Efficiency
+                - Inefficient
+      - name: promo_type_optimization
+        description: Indicates if the promotion type is optimized for the channel.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - BOGO Optimized
+                - Discount Optimized
+                - Info Optimized
+                - Standard
+      - name: ingested_at
+        description: Timestamp when the data was ingested.
+        data_type: timestamp
+        data_tests:
+          - not_null

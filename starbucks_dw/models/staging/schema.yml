@@ -103,3 +103,38 @@ models:
         data_type: timestamp
         data_tests:
           - not_null
+  - name: stg_customers
+    description: >
+      Information about the customers that are part of the promotional offers program.
+    columns:
+      - name: customer_id
+        description: Unique identifier for each customer.
+        data_tests:
+          - not_null
+          - unique
+      - name: gender
+        description: Gender of the customer. 'N/A' if unknown.
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - M
+                - F
+                - O
+                - N/A
+      - name: income
+        description: Income of the customer. 0 if missing.
+        data_tests:
+          - not_null
+      - name: age
+        description: Age of the customer. Records with age = 118 (placeholder for missing) are excluded.
+        data_tests:
+          - not_null
+      - name: subscribed_date
+        description: Date when the customer created an app account (type DATE).
+        data_tests:
+          - not_null
+      - name: ingested_at
+        description: Timestamp when the record was ingested into the staging layer.
+        data_tests:
+          - not_null
