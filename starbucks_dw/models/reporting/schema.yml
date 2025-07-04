@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: rpt_channel_effectiveness
+    description: >
+      Report showing the effectiveness of promotional channels based on promotion types,
+      and transaction status, along with the total number of unique responding customers.
+    columns:
+      - name: promo_channel
+        description: Promotional channel used.
+        tests:
+          - not_null
+      - name: promo_type
+        description: Type of promotion applied.
+        tests:
+          - not_null
+      - name: transaction_status
+        description: Status of the transaction.
+        tests:
+          - not_null
+      - name: total_response
+        description: Total number of unique customers who responded to the promotion.
+        tests:
+          - not_null
+
+  - name: rpt_customer_segmentation
+    description: >
+      Customer segmentation report based on demographic or behavioral segments,
+      transaction status, and promotional rewards received.
+    columns:
+      - name: customer_id
+        description: Unique identifier of the customer.
+        tests:
+          - not_null
+      - name: gender
+        description: Customer's gender.
+      - name: age
+        description: Customer's age.
+        tests:
+          - not_null
+      - name: income
+        description: Customer's income.
+      - name: transaction_status
+        description: Status of the transaction associated with the customer.
+      - name: total_promo_reward
+        description: Total promotional rewards received by the customer.
