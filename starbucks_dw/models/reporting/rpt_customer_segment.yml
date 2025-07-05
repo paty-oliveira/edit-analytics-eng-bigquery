@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: rpt_customer_segment
+    description: >
+      Reporting model that aggregates promotional response metrics by customer demographic and behavioral segments. 
+      This model combines customer profile data with promotion and transaction details to identify which segments are more likely to complete offers.
+
+    columns:
+      - name: gender
+        description: "Customer gender."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["M", "F", "O", "N/A"]
+
+      - name: age_group
+        description: "Age group derived from customer age."
+        tests:
+          - not_null
+
+      - name: income_group
+        description: "Income segment derived from customer income."
+        tests:
+          - not_null
+
+      - name: customer_tenure_group
+        description: "Tenure segment based on how long the customer has been subscribed."
+        tests:
+          - not_null
+
+      - name: engagement_segment
+        description: >
+          Behavioral engagement segment based on the number of promotions associated with each customer. 
+          Categories: Low Engagement (≤2), Moderate Engagement (3–5), High Engagement (>5).
+
+      - name: response_segment
+        description: >
+          Response behavior segment based on how many promotions the customer completed. 
+          Categories: Non-responder (0), Occasional responder (1–2), Frequent responder (≥3).
+
+      - name: promo_type
+        description: "Type of the promotion (e.g., BOGO, discount, informational)."
+        tests:
+          - not_null
+
+      - name: promo_channel
+        description: "Channel used to deliver the promotion (e.g., email, mobile)."
+        tests:
+          - not_null
+
+      - name: total_promos_sent
+        description: "Total number of promotions sent to customers in this segment and context."
+
+      - name: total_promos_completed
+        description: "Total number of promotions marked as completed by customers in this segment and context."
+
+      - name: completion_rate
+        description: "Ratio of completed promotions over total sent promotions for each segment."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+
+      - name: report_date
+        description: "The date on which the report was generated. Useful for tracking reporting snapshots."
+
+      - name: report_generated_at
+        description: "The exact timestamp when the report was built. Useful for auditing and troubleshooting."
