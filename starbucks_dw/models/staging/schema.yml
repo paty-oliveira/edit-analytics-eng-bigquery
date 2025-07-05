@@ -103,3 +103,48 @@ models:
         data_type: timestamp
         data_tests:
           - not_null
+
+  - name: stg_customers
+    config:
+      contract:
+        enforced: true
+    description: >
+      Information about the customers that are part of the promotional offers program.
+    columns:
+      - name: customer_id
+        description: Unique identifier for each customer.
+        data_type: string
+        data_tests:
+          - not_null
+          - unique
+      - name: gender
+        description: Gender of the customer.
+        data_type: string
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - F
+                - M
+                - O
+                - N/A
+      - name: age
+        description: Age of the customer.
+        data_type: int64
+        data_tests:
+          - not_null
+      - name: income
+        description: Income of the customer.
+        data_type: float64
+        data_tests:
+          - not_null
+      - name: subscribed_date
+        description: Date when the customer subscribed to the promotional offers program.
+        data_type: date
+        data_tests:
+          - not_null
+      - name: ingested_at
+        description: Timestamp when the data was ingested.
+        data_type: timestamp
+        data_tests:
+          - not_null

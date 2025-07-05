@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: rpt_channel_effectiveness
+    description: >
+      Extended reporting model that analyzes the performance of promotional channels and types. 
+      Includes metrics such as average completion time, reward value, difficulty, and completion rate, 
+      grouped by promotion channel and promotion type.
+
+    columns:
+      - name: promo_channel
+        description: "Channel through which the promotion was delivered (e.g., email, mobile, web)."
+        tests:
+          - not_null
+
+      - name: promo_type
+        description: "Type of promotion (e.g., discount, BOGO, informational)."
+        tests:
+          - not_null
+
+      - name: total_promos_sent
+        description: "Total number of promotions sent for each channel and type."
+
+      - name: total_promos_completed
+        description: "Number of promotions completed by customers for each channel and type."
+
+      - name: avg_days_to_completion
+        description: "Average number of days it took customers to complete the promotion."
+        
+      - name: avg_reward
+        description: "Average reward value associated with promotions of this type/channel."
+
+      - name: avg_difficulty
+        description: "Average difficulty rank of the promotions sent through this channel and type."
+
+      - name: completion_rate
+        description: "Ratio of completed promotions over total sent promotions."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+
+      - name: report_date
+        description: "Date on which the report was generated."
+
+      - name: report_gene_
